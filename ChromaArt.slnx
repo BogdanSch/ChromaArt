@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="chromaart.client/chromaart.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="ChromaArt.Server/ChromaArt.Server.csproj" />
+</Solution>
