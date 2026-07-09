@@ -1,4 +1,4 @@
-﻿using ChromaArt.Server.Dtos;
+using ChromaArt.Server.Dtos;
 using ChromaArt.Server.Helpers;
 using ChromaArt.Server.Mappers;
 using ChromaArt.Server.Services.Interfaces;
@@ -8,27 +8,38 @@ using Microsoft.Extensions.Options;
 
 namespace ChromaArt.Server.Services;
 
-public class InstagramService(IOptions<ApifySettings> config) : IInstagramService
+public class InstagramService(IOptions<ApifySettings> config, HttpClient client, ILogger<InstagramService> logger) : IInstagramService
 {
-    private readonly ApifyClient _client = new(config.Value.Token);
+    private readonly HttpClient _client = client;
+    private readonly IOption _apifySettings = config;
+    public const int ITEMS_PER_PAGE = 26;
+    
     public async Task<PostDto[]> FilterPosts(PostDto[] posts, string[] hashtags)
     {
         return [..posts.Where(p => p.Hashtags.ContainsAny(hashtags))];
     }
-
-    public async Task<PostDto[]> GetPostsAsync()
+    public async Task<PostDto[]> GetPostsAsync(Query query)
     {
-        var results = await _client.ScrapeAsync<Dictionary<string, object>>(
-            PopularActors.InstagramScraper, new
+        try 
+        {
+            StringBuilder url = new($"actor-tasks/bogsvity777~instagram-scraper-arts-task/runs/last/dataset/items?token={_apifySettings.Value.Token}");
+            
+            if(!string.IsNullOrWhitespace(query.Page)) 
             {
-                directUrls = new[]
-                {
-                    "https://www.instagram.com/itsnotenderart/"
-                }
-            });
-
-        if (results.Count == 0)
+                int offset = query.Page * ITEMS_PER_PAGE;
+                url.Append($"&limit={ITEMS_PER_PAGE}&offset={offset}");
+            }
+            
+            var response = await _client.GetAsync(); 
+            response.EnsureSuccessStatusCode();
+            
+            PostDto[] results = await response.Content.ReadFromJsonAsync<PostDto[]>();
+            return results;
+        }
+        catch(Exception ex)
+        {
+            _logger.LogError(ex, "Couldn't fetch the posts");
             return [];
-        return [.. results.Select(item => item.ToPostDto())];
+        }
     }
 }
