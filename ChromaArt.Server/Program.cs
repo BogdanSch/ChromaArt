@@ -8,6 +8,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Add services to the container.
 builder.Services.AddScoped<IInstagramService, InstagramService>();
+builder.Services.AddHttpClient<InstagramService>(httpClient =>
+{
+    httpClient.BaseAddress = new Uri("https://api.apify.com/v2/");
+    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 builder.Services.AddResponseCaching();
 
 builder.Services.Configure<ApifySettings>(builder.Configuration.GetSection(nameof(ApifySettings)));
