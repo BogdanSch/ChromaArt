@@ -1,4 +1,4 @@
-﻿namespace ChromaArt.Server.Helpers;
+﻿namespace ChromaArt.Server.Helpers.Settings;
 
 public class ApifySettings
 {

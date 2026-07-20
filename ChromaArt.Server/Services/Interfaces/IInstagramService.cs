@@ -1,4 +1,5 @@
-using ChromaArt.Server.Dtos;
+using ChromaArt.Server.DTOs;
+using ChromaArt.Server.Helpers;
 
 namespace ChromaArt.Server.Services.Interfaces;
 
