@@ -2,13 +2,22 @@ using System.Text.Json.Serialization;
 
 namespace ChromaArt.Server.DTOs;
 
-public record PostDto(
-    [JsonPropertyName("id")] string Id, 
-    [JsonPropertyName("type")] string Type, 
-    [JsonPropertyName("caption")] string Caption, 
-    [JsonPropertyName("hashtags")] string[] Hashtags,
-    [JsonPropertyName("mentions")] string[] Mentions, 
-    [JsonPropertyName("url")] string Url, 
-    [JsonPropertyName("displayUrl")] string DisplayUrl, 
-    [JsonPropertyName("alt")] string Alt
-);
+public record PostDto
+{
+    [JsonPropertyName("id")]
+    public required string Id { get; init; }
+    [JsonPropertyName("type")]
+    public required string Type { get; init; }
+    [JsonPropertyName("caption")]
+    public required string Caption { get; init; }
+    [JsonPropertyName("hashtags")]
+    public required string[] Hashtags { get; init; }
+    [JsonPropertyName("mentions")]
+    public required string[] Mentions { get; init; }
+    [JsonPropertyName("url")]
+    public required string Url { get; init; }
+    [JsonPropertyName("displayUrl")]
+    public required string DisplayUrl { get; init; }
+    [JsonPropertyName("alt")]
+    public required string Alt { get; init; }
+}

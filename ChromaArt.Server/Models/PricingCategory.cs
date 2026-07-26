@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace ChromaArt.Server.Models;
-class PricingCategory
+public class PricingCategory
 {
     [Key]
     public required int Id { get; set; }

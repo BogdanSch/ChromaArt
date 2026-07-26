@@ -1,3 +1,5 @@
+using CloudinaryDotNet.Actions;
+
 namespace ChromaArt.Server.Services.Interfaces;
 public interface ICloudinaryService
 {
