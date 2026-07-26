@@ -1,0 +1,92 @@
+﻿using ChromaArt.Server.Helpers.Settings;
+using ChromaArt.Server.Models;
+using ChromaArt.Server.Services.Interfaces;
+using JwtService.Data;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace ChromaArt.Server.Services;
+public class JwtTokenService(IOptions<JwtSettings> jwtSettings) : IJwtTokenService
+{
+    private readonly JwtSettings _jwtSettings = jwtSettings.Value;
+    private readonly SymmetricSecurityKey _key = new(Encoding.UTF8.GetBytes(jwtSettings.Value.SecretKey));
+    public const int DEFAULT_EXPIRATION_TIME_IN_MINUTES = 180;
+
+    public (string, DateTime) GenerateToken(AppUser user, IList<string> roles)
+    {
+        List<Claim> claims =
+            [
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName!),
+            ];
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+        SigningCredentials credentials = new(_key, SecurityAlgorithms.HmacSha512Signature);
+        DateTime currentTime = DateTime.UtcNow;
+        DateTime expirationTime = currentTime.AddMinutes(_jwtSettings.AccessTokenExpirationTimeInMinutes);
+
+        SecurityTokenDescriptor tokenDescriptor = new()
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = expirationTime,
+            SigningCredentials = credentials,
+            Issuer = _jwtSettings.Issuer,
+            Audience = _jwtSettings.Audience,
+        };
+
+        JwtSecurityTokenHandler tokenHandler = new();
+        SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return (tokenHandler.WriteToken(token), expirationTime);
+    }
+    public (string, DateTime) GenerateRefreshToken(bool rememberUser)
+    {
+        byte[] randomNumbers = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumbers);
+
+        string token = Convert.ToBase64String(randomNumbers);
+        DateTime expirationTime = DateTime.UtcNow;
+
+        if (rememberUser)
+        {
+            expirationTime = expirationTime.AddDays(_jwtSettings.RefreshTokenExpirationTimeInDays);
+        }
+        else
+        {
+            expirationTime = expirationTime.AddMinutes(DEFAULT_EXPIRATION_TIME_IN_MINUTES);
+        }
+
+        return (token, expirationTime);
+    }
+    public TokenObject CreateTokenObject(AppUser user, IList<string> roles, bool rememberUser)
+    {
+        (string accessTokenValue, DateTime accessTokenExpirationDate) = GenerateToken(user, roles);
+        (string refreshTokenValue, DateTime refreshTokenExpirationDate) = GenerateRefreshToken(rememberUser);
+
+        return new TokenObject(accessTokenValue, accessTokenExpirationDate, refreshTokenValue, refreshTokenExpirationDate);
+    }
+    public void SetTokensInsideCookie(TokenObject token, HttpContext context)
+    {
+        context.Response.Cookies.Append("accessToken", token.AccessToken, new CookieOptions
+        {
+            Expires = token.AccessTokenExpirationTime,
+            HttpOnly = true,
+            IsEssential = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
+        });
+        context.Response.Cookies.Append("refreshToken", token.RefreshToken, new CookieOptions
+        {
+            Expires = token.RefreshTokenExpirationTime,
+            HttpOnly = true,
+            IsEssential = true,
+            Secure = true,
+            SameSite = SameSiteMode.None,
+        });
+    }
+}
