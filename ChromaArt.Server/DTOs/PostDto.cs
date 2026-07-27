@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 
 namespace ChromaArt.Server.DTOs;
-
 public record PostDto
 {
     [JsonPropertyName("id")]
@@ -17,7 +16,7 @@ public record PostDto
     [JsonPropertyName("url")]
     public required string Url { get; init; }
     [JsonPropertyName("displayUrl")]
-    public required string DisplayUrl { get; init; }
+    public required string DisplayUrl { get; set; }
     [JsonPropertyName("alt")]
     public required string Alt { get; init; }
 }

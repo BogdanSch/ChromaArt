@@ -1,0 +1,14 @@
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+$accent: #ff00a0;
+$dark: #1e1e24;
+$blue-grey: #2a2d34;
+$white: #f0f0f0;

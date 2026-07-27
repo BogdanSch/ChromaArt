@@ -1,15 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import "./header.scss";
 
 export default function Header() {
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrap">
-          <nav
-            className="header__navbar navbar navbar-expand-lg ftco-navbar-light"
-            id="ftco-navbar"
-          >
+          <nav className="header__navbar navbar navbar-expand-lg">
             <Link className="header__logo navbar-brand" to="/">
               ChromaArt
             </Link>
@@ -53,14 +49,14 @@ export default function Header() {
               className="navbar-toggler"
               type="button"
               data-toggle="collapse"
-              data-target="#ftco-nav"
-              aria-controls="ftco-nav"
+              data-target="#main-nav"
+              aria-controls="main-nav"
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
               <span className="fa fa-bars"></span> Menu
             </button>
-            <div className="collapse navbar-collapse" id="ftco-nav">
+            <div className="collapse navbar-collapse" id="main-nav">
               <ul className="navbar-nav ml-auto mr-md-3">
                 <li className="nav-item active">
                   <Link className="nav-link" to="/">
@@ -68,40 +64,24 @@ export default function Header() {
                   </Link>
                 </li>
                 <li className="nav-item active">
-                  <Link
-                    className="nav-link"
-                    to="/$anchor"
-                    params={{ anchor: "#gallery" }}
-                  >
+                  <a className="nav-link" href="#gallery">
                     Gallery
-                  </Link>
+                  </a>
                 </li>
                 <li className="nav-item active">
-                  <Link
-                    className="nav-link"
-                    to="/$anchor"
-                    params={{ anchor: "#pricing" }}
-                  >
+                  <a className="nav-link" href="#pricing">
                     Pricing
-                  </Link>
+                  </a>
                 </li>
                 <li className="nav-item active">
-                  <Link
-                    className="nav-link"
-                    to="/$anchor"
-                    params={{ anchor: "#policy" }}
-                  >
+                  <a className="nav-link" href="#policy">
                     TOS
-                  </Link>
+                  </a>
                 </li>
                 <li className="nav-item active">
-                  <Link
-                    className="nav-link"
-                    to="/$anchor"
-                    params={{ anchor: "#contact" }}
-                  >
+                  <a className="nav-link" href="#contact">
                     Contact
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>

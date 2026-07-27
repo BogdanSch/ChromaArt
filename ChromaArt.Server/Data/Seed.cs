@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using ChromaArt.Server.Models;
 
 namespace ChromaArt.Server.Data;
@@ -18,7 +17,6 @@ public class Seed
 
         // Users
         UserManager<AppUser> userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-
         string adminUserEmail = "bogsvity777@gmail.com";
         AppUser? adminUser = await userManager.FindByEmailAsync(adminUserEmail);
         if (adminUser is null)
@@ -29,7 +27,6 @@ public class Seed
                 Email = adminUserEmail,
                 EmailConfirmed = true,
                 RegisteredAt = DateTime.UtcNow,
-                Address = new Address()
             };
             await userManager.CreateAsync(newAdminUser, "Coding@1234?");
             await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);

@@ -1,7 +1,7 @@
-﻿using ChromaArt.Server.Helpers.Settings;
+﻿using ChromaArt.Server.Data;
+using ChromaArt.Server.Helpers.Settings;
 using ChromaArt.Server.Models;
 using ChromaArt.Server.Services.Interfaces;
-using JwtService.Data;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

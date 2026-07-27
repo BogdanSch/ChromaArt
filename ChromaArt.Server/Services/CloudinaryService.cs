@@ -36,4 +36,13 @@ public class CloudinaryService : ICloudinaryService
         DeletionParams deletionParams = new(publicId);
         return await _cloudinary.DestroyAsync(deletionParams);
     }
+    //public string FetchAssetAsync(string assetUrl)
+    //{
+    //    string encodedUrl = Uri.EscapeDataString(assetUrl);
+
+    //    string cloudName = _cloudinary.Api.Account.Cloud;
+    //    string safeUrl = $"https://res.cloudinary.com/{cloudName}/image/fetch/{encodedUrl}";
+
+    //    return safeUrl;
+    //}
 }

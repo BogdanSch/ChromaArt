@@ -48,7 +48,6 @@ builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddHttpClient<InstagramService>(httpClient =>
 {
-    httpClient.BaseAddress = new Uri("https://api.apify.com/v2/");
     httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
@@ -64,10 +63,10 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
         {
-            policy.WithOrigins(frontendSettings["BaseUrl"]!)
-                .AllowCredentials()
+            policy.WithOrigins(frontendSettings["BaseUrl"]!, "https://localhost:59755")
                 .AllowAnyMethod()
-                .AllowAnyHeader();
+                .AllowAnyHeader()
+                .AllowCredentials();
         });
 });
 
@@ -87,11 +86,11 @@ app.UseRouting();
 app.UseForwardedHeaders();
 app.UseHttpsRedirection();
 
+app.UseCors();
+app.UseResponseCaching();
+
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseResponseCaching();
-app.UseCors();
 
 app.MapControllers();
 app.MapFallbackToFile("/index.html");

@@ -1,6 +1,6 @@
-﻿using ChromaArt.Server.Helpers;
-using JwtService.Data;
-using JwtService.DTOs;
+﻿using ChromaArt.Server.Data;
+using ChromaArt.Server.DTOs.Token;
+using ChromaArt.Server.Helpers;
 
 namespace ChromaArt.Server.Mappers;
 

@@ -1,0 +1,131 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: $blue-grey;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+  &__wrap {
+    padding: 0.5rem 0;
+  }
+
+  &__navbar {
+    @include flex-row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0; // Overrides Bootstrap's default navbar padding
+  }
+
+  &__logo {
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: $white !important;
+    letter-spacing: 1px;
+    transition:
+      color 0.3s ease,
+      text-shadow 0.3s ease;
+
+    &:hover {
+      color: $accent !important;
+      text-shadow: 0 0 10px rgba($accent, 0.6); // Neon text glow
+    }
+  }
+
+  // Target the Bootstrap nav links
+  .nav-link {
+    color: $white !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    padding: 0.5rem 0 !important;
+    transition: color 0.3s ease;
+    position: relative;
+
+    &:hover {
+      color: $accent !important;
+    }
+
+    // Animated neon underline on hover
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background-color: $accent;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+      box-shadow: 0 0 6px $accent;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  // Social media icon buttons
+  .social-media {
+    a {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: $dark;
+      color: $white;
+      margin-left: 0.75rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $accent;
+        color: $white;
+        transform: translateY(-3px); // Lift effect
+        box-shadow: 0 6px 12px rgba($accent, 0.4); // Colored drop shadow
+      }
+
+      span {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  // Mobile Hamburger Menu Override
+  .navbar-toggler {
+    border: none;
+    color: $white;
+    outline: none;
+    box-shadow: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+
+    &:hover,
+    &:focus {
+      color: $accent;
+    }
+
+    .fa-bars {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+// Mobile specific overrides to keep the dropdown clean
+@media (max-width: 991.98px) {
+  .header {
+    .navbar-collapse {
+      background-color: $dark;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .social-media {
+      margin-top: 1rem;
+      a {
+        margin-left: 0;
+        margin-right: 0.75rem;
+      }
+    }
+  }
+}

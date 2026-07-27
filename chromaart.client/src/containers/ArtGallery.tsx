@@ -41,7 +41,7 @@ export default function ArtGallery() {
             return (
               <article className="gallery__item" key={post.id}>
                 <img
-                  src={post.displayUrl}
+                  src={`${API_URL}/instagram-posts/proxy-image?url=${encodeURIComponent(post.displayUrl)}`}
                   alt={post.alt}
                   className="gallery__image"
                 />

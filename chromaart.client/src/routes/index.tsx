@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ArtGallery } from "../containers";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -7,7 +8,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
-      <section className="hero" id="hero">
+      <section className="hero mt-5" id="hero">
         <div className="container">
           <div className="hero__wrap">
             <h1 className="hero__title">Welcome to itsnotenderart's Studio</h1>
@@ -27,6 +28,7 @@ function Index() {
             <p className="gallery__description">
               A live collection of my latest pieces, sketches, and attacks.
             </p>
+            <ArtGallery />
           </div>
         </div>
       </section>

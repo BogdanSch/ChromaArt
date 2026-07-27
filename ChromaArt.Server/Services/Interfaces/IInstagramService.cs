@@ -6,5 +6,6 @@ namespace ChromaArt.Server.Services.Interfaces;
 public interface IInstagramService
 {
     Task<PostDto[]> GetPostsAsync(Query query);
-    Task<PostDto[]> FilterPosts(PostDto[] posts, string[] hashtags);
+    PostDto[] FilterPosts(PostDto[] posts, string[] hashtags);
+    Task<(Stream, string)?> FetchImagesAsync(string url);
 }

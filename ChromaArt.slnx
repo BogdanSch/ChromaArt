@@ -4,4 +4,5 @@
     <Deploy />
   </Project>
   <Project Path="ChromaArt.Server/ChromaArt.Server.csproj" />
+  <Project Path="TypeScriptGenerator/TypeScriptGenerator.csproj" Id="1952adf0-6135-47ea-a778-70f4035c5dda" />
 </Solution>

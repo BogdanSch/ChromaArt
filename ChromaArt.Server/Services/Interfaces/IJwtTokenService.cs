@@ -1,5 +1,5 @@
-﻿using ChromaArt.Server.Models;
-using JwtService.Data;
+﻿using ChromaArt.Server.Data;
+using ChromaArt.Server.Models;
 
 namespace ChromaArt.Server.Services.Interfaces;
 public interface IJwtTokenService
