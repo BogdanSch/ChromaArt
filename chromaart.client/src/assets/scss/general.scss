@@ -3,12 +3,39 @@ body {
   color: $white;
 }
 
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes bgAnimation {
+  0% {
+    --rotate: 45deg;
+  }
+  50% {
+    --rotate: 270deg;
+  }
+  100% {
+    --rotate: 45deg;
+  }
+}
+
 .wrapper {
   @include flex-col;
   overflow: clip;
   width: 100%;
   min-height: 100vh;
-  background-color: $dark;
+  background: $dark;
+  animation-name: bgAnimation;
+  animation-duration: 60s;
+  animation-iteration-count: infinite;
+  background: linear-gradient(
+    var(--rotate),
+    rgba(15, 15, 15, 1) 0%,
+    rgb(38, 40, 63) 79%,
+    rgb(3, 12, 85) 100%
+  );
 }
 
 .main {

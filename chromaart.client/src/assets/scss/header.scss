@@ -1,9 +1,9 @@
 .header {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 100;
   background-color: $blue-grey;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: $light-blue-shadow;
 
   &__wrap {
     padding: 0.5rem 0;
@@ -13,59 +13,71 @@
     @include flex-row;
     justify-content: space-between;
     align-items: center;
-    padding: 0; // Overrides Bootstrap's default navbar padding
   }
 
   &__logo {
-    font-weight: 800;
+    font-weight: $fw-dark;
     font-size: 1.75rem;
     color: $white !important;
     letter-spacing: 1px;
-    transition:
-      color 0.3s ease,
-      text-shadow 0.3s ease;
+    transition: all 0.3s ease;
 
     &:hover {
       color: $accent !important;
-      text-shadow: 0 0 10px rgba($accent, 0.6); // Neon text glow
+      text-shadow: 0 0 10px rgba($accent, 0.4);
     }
   }
 
-  // Target the Bootstrap nav links
-  .nav-link {
-    color: $white !important;
-    font-weight: 500;
-    margin: 0 0.5rem;
-    padding: 0.5rem 0 !important;
-    transition: color 0.3s ease;
-    position: relative;
-
-    &:hover {
-      color: $accent !important;
+  .nav {
+    $block: ".nav";
+    &-item {
+      &.active #{$block}-link {
+        font-weight: $fw-dark;
+        color: darken($accent, 12%) !important;
+      }
     }
+    &-link {
+      color: $white !important;
+      font-weight: $fw-normal;
+      margin: 0 0.5rem;
+      padding: 0.5rem 0.25rem !important;
+      transition: color 0.3s ease;
+      position: relative;
 
-    // Animated neon underline on hover
-    &::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: 0;
-      left: 50%;
-      background-color: $accent;
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-      box-shadow: 0 0 6px $accent;
-    }
-
-    &:hover::after {
-      width: 100%;
+      &:hover {
+        color: $accent !important;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: $accent;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+      &:hover::after {
+        width: 100%;
+      }
     }
   }
 
-  // Social media icon buttons
   .social-media {
-    a {
+    $block: ".social-media";
+    &__list {
+      @include flex-row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      column-gap: 1rem;
+      list-style: none;
+    }
+    &__link {
+      @include flex-row;
+      justify-content: center;
+      align-items: center;
       width: 38px;
       height: 38px;
       border-radius: 50%;
@@ -74,42 +86,53 @@
       margin-left: 0.75rem;
       transition: all 0.3s ease;
       text-decoration: none;
+      position: relative;
 
-      &:hover {
+      &:hover,
+      &:focus {
         background-color: $accent;
         color: $white;
-        transform: translateY(-3px); // Lift effect
-        box-shadow: 0 6px 12px rgba($accent, 0.4); // Colored drop shadow
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba($accent, 0.4);
       }
+      &:hover #{$block}__hint,
+      &:focus #{$block}__hint {
+        opacity: 1;
+        top: 130%;
+      }
+    }
+    &__hint {
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+      display: block;
+      background-color: $blue-grey;
+      border-radius: 1rem;
+      padding: 16px 12px;
+      z-index: 101;
+      box-shadow: $extra-light-blue-shadow;
+      outline: 2px solid $white;
 
-      span {
-        font-size: 1.1rem;
+      &-text {
+        padding: 0;
+        margin-bottom: 0;
+        font-size: 1.25rem;
+        font-weight: $fw-bold;
       }
     }
   }
-
-  // Mobile Hamburger Menu Override
-  .navbar-toggler {
-    border: none;
-    color: $white;
-    outline: none;
-    box-shadow: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-
-    &:hover,
-    &:focus {
-      color: $accent;
-    }
-
-    .fa-bars {
-      font-size: 1.5rem;
-      margin-right: 0.5rem;
+  .auth {
+    &__navbar {
+      width: 100%;
+      justify-content: flex-end;
+      align-items: center;
     }
   }
 }
 
-// Mobile specific overrides to keep the dropdown clean
 @media (max-width: 991.98px) {
   .header {
     .navbar-collapse {

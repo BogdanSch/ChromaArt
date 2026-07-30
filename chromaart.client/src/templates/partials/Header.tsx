@@ -1,6 +1,38 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import "../../utils/stringHelper";
+
+type LandingLink = {
+  text: string;
+  hash: string;
+  isActive: boolean;
+};
+
+const getMainNavLinks = (): LandingLink[] => [
+  { text: "Home", hash: "", isActive: false },
+  { text: "Gallery", hash: "gallery", isActive: false },
+  { text: "Pricing", hash: "pricing", isActive: false },
+  { text: "TOS", hash: "policy", isActive: false },
+  { text: "Contact", hash: "contact", isActive: false },
+];
 
 export default function Header() {
+  const location = useLocation();
+
+  const [mainNavLinks, setMainNavLinks] =
+    useState<LandingLink[]>(getMainNavLinks());
+
+  useEffect(() => {
+    const targetHash: string = location.hash.replace("#", "").trim();
+    console.log(targetHash.length);
+
+    const newMainNavLinks = getMainNavLinks();
+    newMainNavLinks.forEach((link) => {
+      link.isActive = link.hash === targetHash;
+    });
+    setMainNavLinks(newMainNavLinks);
+  }, [location.hash]);
+
   return (
     <header className="header">
       <div className="container">
@@ -9,79 +41,63 @@ export default function Header() {
             <Link className="header__logo navbar-brand" to="/">
               ChromaArt
             </Link>
-            <div className="social-media order-lg-last">
-              <p className="mb-0 d-flex">
-                <a
-                  href="#"
-                  className="d-flex align-items-center justify-content-center"
-                >
-                  <span className="fa fa-facebook">
-                    <i className="sr-only">Facebook</i>
-                  </span>
-                </a>
-                <a
-                  href="#"
-                  className="d-flex align-items-center justify-content-center"
-                >
-                  <span className="fa fa-twitter">
-                    <i className="sr-only">Twitter</i>
-                  </span>
-                </a>
-                <a
-                  href="#"
-                  className="d-flex align-items-center justify-content-center"
-                >
-                  <span className="fa fa-instagram">
-                    <i className="sr-only">Instagram</i>
-                  </span>
-                </a>
-                <a
-                  href="#"
-                  className="d-flex align-items-center justify-content-center"
-                >
-                  <span className="fa fa-dribbble">
-                    <i className="sr-only">Dribbble</i>
-                  </span>
-                </a>
-              </p>
-            </div>
             <button
               className="navbar-toggler"
               type="button"
-              data-toggle="collapse"
-              data-target="#main-nav"
+              data-bs-toggle="collapse"
+              data-bs-target="#main-nav, #auth-nav"
               aria-controls="main-nav"
-              aria-expanded="false"
+              aria-expanded="true"
               aria-label="Toggle navigation"
             >
-              <span className="fa fa-bars"></span> Menu
+              <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="main-nav">
-              <ul className="navbar-nav ml-auto mr-md-3">
-                <li className="nav-item active">
-                  <Link className="nav-link" to="/">
-                    Home
+              <ul className="navbar-nav">
+                {mainNavLinks.map((link, index) => {
+                  return (
+                    <li
+                      className={`nav-item${link.isActive ? " active" : ""}`}
+                      key={`main-nav-${index}`}
+                    >
+                      <a
+                        className="nav-link"
+                        href={`/${!link.hash.isNullOrWhitespace() ? `#${link.hash}` : ""}`}
+                      >
+                        {link.text}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            <div className="social-media">
+              <ul className="mb-0 social-media__list">
+                {/* Change from hardcoded versions */}
+                <li className="social-media__item">
+                  <a href="#" className="social-media__link">
+                    <i className="bi bi-facebook" />
+                    <span className="social-media__hint">
+                      <p className="social-media__hint-text">Facebook</p>
+                    </span>
+                  </a>
+                </li>
+                <li className="social-media__item">
+                  <a href="#" className="social-media__link">
+                    <i className="bi bi-instagram" />
+                    <span className="social-media__hint">
+                      <p className="social-media__hint-text">Instagram</p>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="collapse navbar-collapse" id="auth-nav">
+              <ul className="auth__navbar navbar-nav">
+                <li className="nav-item">
+                  <Link className="btn btn-outline-primary" to="/auth/login">
+                    Login
                   </Link>
-                </li>
-                <li className="nav-item active">
-                  <a className="nav-link" href="#gallery">
-                    Gallery
-                  </a>
-                </li>
-                <li className="nav-item active">
-                  <a className="nav-link" href="#pricing">
-                    Pricing
-                  </a>
-                </li>
-                <li className="nav-item active">
-                  <a className="nav-link" href="#policy">
-                    TOS
-                  </a>
-                </li>
-                <li className="nav-item active">
-                  <a className="nav-link" href="#contact">
-                    Contact
-                  </a>
                 </li>
               </ul>
             </div>
