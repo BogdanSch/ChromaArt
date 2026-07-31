@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
 import { API_URL } from "../variables";
 import type { PostDto } from "../types";
 import { useState } from "react";
@@ -55,13 +54,13 @@ export default function ArtGallery() {
           <p>Sorry, no posts available.</p>
         )}
         <div className="gallery__actions mt-5">
-          <Link
-            to="https://instagram.com/itsnotenderart"
+          <a
+            href="https://instagram.com/itsnotenderart"
             target="_blank"
             className="gallery__link"
           >
             View more on Instagram
-          </Link>
+          </a>
         </div>
       </div>
     </>

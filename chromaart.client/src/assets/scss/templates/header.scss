@@ -140,12 +140,12 @@
       padding: 1rem;
       border-radius: 8px;
       margin-top: 1rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: $extra-light-blue-shadow;
     }
 
     .social-media {
       margin-top: 1rem;
-      a {
+      &__link {
         margin-left: 0;
         margin-right: 0.75rem;
       }

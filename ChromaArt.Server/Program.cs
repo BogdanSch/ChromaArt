@@ -1,6 +1,8 @@
 using ChromaArt.Server.Data;
 using ChromaArt.Server.Helpers.Settings;
 using ChromaArt.Server.Models;
+using ChromaArt.Server.Repositories;
+using ChromaArt.Server.Repositories.Interfaces;
 using ChromaArt.Server.Services;
 using ChromaArt.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -46,6 +48,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IInstagramService, InstagramService>();
 builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IPricingCategoryRepository, PricingCategoryRepository>();
+builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
 builder.Services.AddHttpClient<InstagramService>(httpClient =>
 {
     httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -54,7 +58,6 @@ builder.Services.AddHttpClient<InstagramService>(httpClient =>
 builder.Services.Configure<ApifySettings>(builder.Configuration.GetSection(nameof(ApifySettings)));
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection(nameof(CloudinarySettings)));
 builder.Services.Configure<JwtSettings>(jwtSettings);
-
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

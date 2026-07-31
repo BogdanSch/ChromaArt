@@ -24,10 +24,12 @@ function Index() {
       <section className="gallery" id="gallery">
         <div className="container">
           <div className="gallery__wrap">
-            <h2 className="gallery__title">Recent Works</h2>
-            <p className="gallery__description">
-              A live collection of my latest pieces, sketches, and attacks.
-            </p>
+            <div className="mb-4">
+              <h2 className="gallery__title">Recent Works</h2>
+              <p className="gallery__description">
+                A live collection of my latest pieces, sketches, and attacks.
+              </p>
+            </div>
             <ArtGallery />
           </div>
         </div>
@@ -35,10 +37,12 @@ function Index() {
       <section className="pricing" id="pricing">
         <div className="container">
           <div className="pricing__wrap">
-            <h2 className="pricing__title">Commission Prices</h2>
-            <p className="pricing__subtitle">
-              Select a category below to view current rates and examples.
-            </p>
+            <div className="mb-4">
+              <h2 className="pricing__title">Commission Prices</h2>
+              <p className="pricing__subtitle">
+                Select a category below to view current rates and examples.
+              </p>
+            </div>
             <div className="pricing__tabs">
               <button className="pricing__tab pricing__tab--active">
                 Icons
