@@ -1,9 +1,8 @@
-using ChromaArt.Server.DTOs;
+using ChromaArt.Server.DTOs.Posts;
 using ChromaArt.Server.Helpers;
 using ChromaArt.Server.Helpers.Settings;
 using ChromaArt.Server.Services.Interfaces;
 using Microsoft.Extensions.Options;
-using System.Net.Mime;
 using System.Text;
 
 namespace ChromaArt.Server.Services;
@@ -13,7 +12,7 @@ public class InstagramService : IInstagramService
     private readonly IOptions<ApifySettings> _apifySettings;
     private readonly ILogger<InstagramService> _logger;
     private readonly ICloudinaryService _cloudinaryService;
-    public const int ITEMS_PER_PAGE = 20;
+    public const int ITEMS_PER_PAGE = 16;
     public InstagramService(IOptions<ApifySettings> config, HttpClient client, ILogger<InstagramService> logger, ICloudinaryService cloudinaryService)
     {
         _client = client;
@@ -22,7 +21,6 @@ public class InstagramService : IInstagramService
         _logger = logger;
         _cloudinaryService = cloudinaryService;
     }
-    
     public PostDto[] FilterPosts(PostDto[] posts, string[] hashtags)
     {
         return [..posts.Where(p => p.Hashtags.ContainsAny(hashtags))];

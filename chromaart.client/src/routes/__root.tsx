@@ -1,4 +1,4 @@
-import { Footer, Header } from "../templates/partials";
+import { Footer, Header } from "./partials";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 

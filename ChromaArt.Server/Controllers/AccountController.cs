@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using ChromaArt.Server.Models;
 using ChromaArt.Server.DTOs.AppUsers;
-using ChromaArt.Server.Mappers;
 using ChromaArt.Server.Data;
+using ChromaArt.Server.Extenssions.Mappers;
 
 namespace ChromaArt.Server.Controllers;
 

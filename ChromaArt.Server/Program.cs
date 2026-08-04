@@ -1,17 +1,14 @@
 using ChromaArt.Server.Data;
+using ChromaArt.Server.Extenssions;
 using ChromaArt.Server.Helpers.Settings;
 using ChromaArt.Server.Models;
 using ChromaArt.Server.Repositories;
 using ChromaArt.Server.Repositories.Interfaces;
 using ChromaArt.Server.Services;
 using ChromaArt.Server.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
-using System.Text;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -22,24 +19,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 IConfigurationSection jwtSettings = builder.Configuration.GetSection(nameof(JwtSettings));
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(jwtOptions =>
-{
-    jwtOptions.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!))
-    };
-});
+builder.Services.ConfigureJwtAuthentication(jwtSettings);
 builder.Services.AddAuthorization();
 builder.Services.AddResponseCaching();
 builder.Services.AddControllers();
@@ -61,7 +41,7 @@ builder.Services.Configure<JwtSettings>(jwtSettings);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-var frontendSettings = builder.Configuration.GetSection("FrontendSettings");
+IConfigurationSection frontendSettings = builder.Configuration.GetSection("FrontendSettings");
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -77,12 +57,16 @@ WebApplication app = builder.Build();
 
 app.UseDefaultFiles();
 app.MapStaticAssets();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
+}
+if(args.Length == 1 && args[0] == "seeddata")
+{
+    await Seed.SeedTablesAsync(app);
+    await Seed.SeedUsersAndRolesAsync(app);
 }
 
 app.UseRouting();

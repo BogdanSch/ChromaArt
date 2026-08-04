@@ -1,4 +1,4 @@
-﻿using ChromaArt.Server.DTOs;
+﻿using ChromaArt.Server.DTOs.Posts;
 using System.Collections.ObjectModel;
 using System.Reflection;
 

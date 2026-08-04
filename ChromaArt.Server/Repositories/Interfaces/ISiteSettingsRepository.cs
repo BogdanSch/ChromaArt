@@ -5,4 +5,5 @@ public interface ISiteSettingsRepository : IEntityWriter<SiteSetting>
 {
     Task<SiteSetting[]> GetAllSocialsAsync();
     Task<SiteSetting[]> GetAllPrivacyRecordsAsync();
+    Task<SiteSetting[]> GetAllCommissionInfoAsync();
 }

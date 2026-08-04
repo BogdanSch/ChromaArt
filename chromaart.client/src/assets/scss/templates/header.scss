@@ -1,3 +1,5 @@
+@use "../functions.scss";
+
 .header {
   position: sticky;
   top: 0;
@@ -23,8 +25,8 @@
     transition: all 0.3s ease;
 
     &:hover {
-      color: $accent !important;
-      text-shadow: 0 0 10px rgba($accent, 0.4);
+      color: $primary !important;
+      text-shadow: 0 0 10px rgba($primary, 0.4);
     }
   }
 
@@ -33,7 +35,7 @@
     &-item {
       &.active #{$block}-link {
         font-weight: $fw-dark;
-        color: darken($accent, 12%) !important;
+        color: functions.darken($primary, 12%) !important;
       }
     }
     &-link {
@@ -45,7 +47,7 @@
       position: relative;
 
       &:hover {
-        color: $accent !important;
+        color: $primary !important;
       }
       &::after {
         content: "";
@@ -54,7 +56,7 @@
         height: 2px;
         bottom: 0;
         left: 50%;
-        background-color: $accent;
+        background-color: $primary;
         transition: all 0.3s ease;
         transform: translateX(-50%);
       }
@@ -90,10 +92,10 @@
 
       &:hover,
       &:focus {
-        background-color: $accent;
+        background-color: $primary;
         color: $white;
         transform: translateY(-3px);
-        box-shadow: 0 6px 12px rgba($accent, 0.4);
+        box-shadow: 0 6px 12px rgba($primary, 0.4);
       }
       &:hover #{$block}__hint,
       &:focus #{$block}__hint {

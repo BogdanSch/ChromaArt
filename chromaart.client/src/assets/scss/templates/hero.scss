@@ -1,0 +1,39 @@
+// ==========================================
+// Hero Section Styles
+// ==========================================
+.hero {
+  position: relative;
+  padding: 8rem 0;
+  text-align: center;
+
+  &__wrap {
+    @include flex-col;
+    align-items: center;
+    justify-content: center;
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800;
+    color: $white;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -1px;
+
+    // Soft neon glow effect to match the vibrant character art vibe
+    text-shadow:
+      0 0 25px rgba($primary, 0.3),
+      0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  &__subtitle {
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    color: rgba($white, 0.75); // Slightly muted to let the title stand out
+    font-weight: 400;
+    margin-bottom: 3rem; // Ample space before the CTA button
+    line-height: 1.6;
+    max-width: 650px;
+  }
+}

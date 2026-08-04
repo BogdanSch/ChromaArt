@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArtGallery } from "../containers";
+import { ArtGallery, PricingSelector } from "../containers";
+import { Button } from "react-bootstrap";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -15,9 +16,13 @@ function Index() {
             <p className="hero__subtitle">
               Vibrant Character Design, Anthro Art, and Custom Commissions
             </p>
-            <a href="#pricing" className="hero__cta-button">
+            <Button
+              href="#pricing"
+              className="hero__cta-button"
+              variant="primary"
+            >
               View Commission Status
-            </a>
+            </Button>
           </div>
         </div>
       </section>
@@ -43,21 +48,7 @@ function Index() {
                 Select a category below to view current rates and examples.
               </p>
             </div>
-            <div className="pricing__tabs">
-              <button className="pricing__tab pricing__tab--active">
-                Icons
-              </button>
-              <button className="pricing__tab">Half-Body</button>
-              <button className="pricing__tab">Full-Body</button>
-              <button className="pricing__tab">Ref Sheets</button>
-            </div>
-            <div className="pricing__content">
-              <img
-                src="/path-to-pricing-sheet.jpg"
-                alt="Pricing Sheet Details"
-                className="pricing__image"
-              />
-            </div>
+            <PricingSelector />
           </div>
         </div>
       </section>

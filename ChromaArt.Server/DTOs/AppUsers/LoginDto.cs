@@ -1,8 +1,2 @@
 ﻿namespace ChromaArt.Server.DTOs.AppUsers;
-
-public class LoginDto
-{
-    public required string Email { get; set; }
-    public required string Password { get; set; }
-    public bool RememberMe { get; set; } = false;
-}
+public record LoginDto(string Email, string Password, bool RememberMe = false) {}

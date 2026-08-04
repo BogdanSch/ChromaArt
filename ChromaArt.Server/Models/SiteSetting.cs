@@ -9,5 +9,5 @@ public class SiteSetting
     [MaxLength(100, ErrorMessage = "Key cannot exceed 100 characters")]
     public required string Key { get; set; }
     public required string Value { get; set; }
-    public required SiteSettingType Type { get; set; }
+    public required SettingCategory Category { get; set; }
 }

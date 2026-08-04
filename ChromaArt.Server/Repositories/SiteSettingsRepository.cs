@@ -24,14 +24,18 @@ public class SiteSettingsRepository(ApplicationDbContext context) : ISiteSetting
         _context.Update(item);
         return await SaveAsync();
     }
-    private IQueryable<SiteSetting> GetSiteSettingsByType(SiteSettingType type) => _context.SiteSettings.Where(ss => ss.Type == type);
+    private IQueryable<SiteSetting> GetSiteSettingsByCategory(SettingCategory type) => _context.SiteSettings.Where(ss => ss.Category == type);
     public async Task<SiteSetting[]> GetAllSocialsAsync()
     {
-        return await GetSiteSettingsByType(SiteSettingType.Social).ToArrayAsync();
+        return await GetSiteSettingsByCategory(SettingCategory.SocialLink).ToArrayAsync();
     }
     public async Task<SiteSetting[]> GetAllPrivacyRecordsAsync()
     {
-        return await GetSiteSettingsByType(SiteSettingType.Privacy).ToArrayAsync();
+        return await GetSiteSettingsByCategory(SettingCategory.PrivacyImage).ToArrayAsync();
+    }
+    public async Task<SiteSetting[]> GetAllCommissionInfoAsync()
+    {
+        return await GetSiteSettingsByCategory(SettingCategory.CommissionInfo).ToArrayAsync();
     }
     public async Task<bool> SaveAsync()
     {

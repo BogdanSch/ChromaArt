@@ -1,7 +1,7 @@
 using ChromaArt.Server.Services.Interfaces;
 using ChromaArt.Server.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using ChromaArt.Server.DTOs;
+using ChromaArt.Server.DTOs.Posts;
 
 namespace ChromaArt.Server.Controllers;
 
@@ -18,7 +18,6 @@ public class InstagramController(IInstagramService instagramService) : Controlle
     {
         PostDto[] posts = await _instagramService.GetPostsAsync(query);
         posts = _instagramService.FilterPosts(posts, HASHTAGS);
-        //posts = await _instagramService.FetchSafeImagesAsync(posts);
         return Ok(posts);
     }
     [HttpGet("proxy-image")]

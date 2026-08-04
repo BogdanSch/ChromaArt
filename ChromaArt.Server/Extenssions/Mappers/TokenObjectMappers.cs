@@ -2,7 +2,7 @@
 using ChromaArt.Server.DTOs.Token;
 using ChromaArt.Server.Helpers;
 
-namespace ChromaArt.Server.Mappers;
+namespace ChromaArt.Server.Extenssions.Mappers;
 
 public static class TokenObjectMappers
 {

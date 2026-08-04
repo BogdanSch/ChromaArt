@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace ChromaArt.Server.DTOs;
+namespace ChromaArt.Server.DTOs.Posts;
 public record PostDto
 {
     [JsonPropertyName("id")]

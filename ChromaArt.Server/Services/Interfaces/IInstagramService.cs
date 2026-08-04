@@ -1,4 +1,4 @@
-using ChromaArt.Server.DTOs;
+using ChromaArt.Server.DTOs.Posts;
 using ChromaArt.Server.Helpers;
 
 namespace ChromaArt.Server.Services.Interfaces;

@@ -24,8 +24,6 @@ export default function Header() {
 
   useEffect(() => {
     const targetHash: string = location.hash.replace("#", "").trim();
-    console.log(targetHash.length);
-
     const newMainNavLinks = getMainNavLinks();
     newMainNavLinks.forEach((link) => {
       link.isActive = link.hash === targetHash;
