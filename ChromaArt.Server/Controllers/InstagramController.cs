@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ChromaArt.Server.DTOs.Posts;
 
 namespace ChromaArt.Server.Controllers;
-
 [ApiController]
 [Route("api/instagram-posts")]
 public class InstagramController(IInstagramService instagramService) : ControllerBase

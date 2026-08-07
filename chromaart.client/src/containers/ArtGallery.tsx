@@ -1,13 +1,17 @@
 import axios from "axios";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Alert, Button, Card } from "react-bootstrap";
 import { API_URL } from "../variables";
 import type { PostDto } from "../types";
 import { LazyImage } from "../components";
 
+const QUERY_KEY: string = "instagramPosts";
+
 export default function ArtGallery() {
+  const queryClient = useQueryClient();
   const [requestError, setRequestError] = useState<string | null>(null);
+
   const fetchInstagramPosts = async (): Promise<PostDto[]> => {
     try {
       setRequestError(null);
@@ -23,9 +27,15 @@ export default function ArtGallery() {
       return [];
     }
   };
+  const handleImageLoadingError = (postId: string): void => {
+    queryClient.setQueryData<PostDto[]>([QUERY_KEY], (oldData) => {
+      return oldData?.filter((post) => post.id !== postId) || [];
+    });
+  };
   const { data, isLoading, error } = useQuery({
-    queryKey: ["instagramPosts"],
+    queryKey: [QUERY_KEY],
     queryFn: fetchInstagramPosts,
+    retry: 2,
   });
 
   if (isLoading) {
@@ -46,6 +56,7 @@ export default function ArtGallery() {
                     src={`${API_URL}/instagram-posts/proxy-image?url=${encodeURIComponent(post.displayUrl)}`}
                     alt={post.alt}
                     containerClassName="card-img"
+                    handleLoadingError={() => handleImageLoadingError(post.id)}
                   />
                   <Card.ImgOverlay>
                     <div className="gallery__overlay">

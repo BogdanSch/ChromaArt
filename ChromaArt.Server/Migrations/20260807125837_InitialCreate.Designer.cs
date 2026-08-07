@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChromaArt.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260727145932_InitialCreate")]
+    [Migration("20260807125837_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -126,7 +126,7 @@ namespace ChromaArt.Server.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("StartingPrice")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
@@ -141,6 +141,9 @@ namespace ChromaArt.Server.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Key")
                         .IsRequired()

@@ -7,7 +7,6 @@ using ChromaArt.Server.Data;
 using ChromaArt.Server.Extenssions.Mappers;
 
 namespace ChromaArt.Server.Controllers;
-
 [ApiController]
 [Route("api/accounts")]
 public class AccountController(UserManager<AppUser> userManager, IJwtTokenService tokenService) : ControllerBase

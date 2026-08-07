@@ -52,7 +52,7 @@ export default function PricingSelector() {
         modules={[Virtual, Navigation, Pagination]}
         onSwiper={setSwiperInstance}
         slidesPerView={1}
-        spaceBetween={30}
+        spaceBetween={20}
         navigation={true}
         virtual
       >
@@ -85,7 +85,7 @@ export default function PricingSelector() {
           {data?.map((pricingCategory) => (
             <button
               key={`tab-${pricingCategory.id}`}
-              className="btn btn-lg pricing-selector__tab"
+              className="btn btn-md-lg pricing-selector__tab"
               onClick={() => slideTo(pricingCategory.displayOrder)}
             >
               {pricingCategory.name}

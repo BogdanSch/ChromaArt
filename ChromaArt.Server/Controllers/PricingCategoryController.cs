@@ -5,7 +5,6 @@ using ChromaArt.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChromaArt.Server.Controllers;
-
 [ApiController]
 [Route("api/pricing-categories")]
 public class PricingCategoryController(IPricingCategoryRepository pricingCategoryRepository) : ControllerBase

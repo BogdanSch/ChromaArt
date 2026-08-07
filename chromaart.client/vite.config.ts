@@ -60,6 +60,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@scss": fileURLToPath(new URL("./src/assets/scss", import.meta.url)),
     },
   },
   server: {

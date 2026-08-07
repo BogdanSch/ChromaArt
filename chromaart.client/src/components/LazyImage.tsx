@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 type LazyImageProps = {
   src: string;
   alt: string;
+  handleLoadingError?: () => void;
   containerClassName?: string;
   imageClassName?: string;
 };
@@ -11,6 +12,7 @@ export default function LazyImage({
   alt,
   containerClassName,
   imageClassName,
+  handleLoadingError,
 }: LazyImageProps) {
   const imageContainerRef = useRef<HTMLDivElement | null>(null);
   const loaded = () => {
@@ -40,7 +42,13 @@ export default function LazyImage({
       className={`blur-load${" " + containerClassName || ""}`}
       ref={imageContainerRef}
     >
-      <img src={src} alt={alt} className={imageClassName} loading="lazy" />
+      <img
+        src={src}
+        alt={alt}
+        className={imageClassName}
+        loading="lazy"
+        onError={handleLoadingError}
+      />
     </div>
   );
 }

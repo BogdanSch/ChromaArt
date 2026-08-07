@@ -3,7 +3,6 @@ using ChromaArt.Server.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace ChromaArt.Server.Data;
-
 public class Seed
 {
     public const string DEFAULT_IMAGE_URL = "https://placehold.co/600x400/EEE/31343C";
@@ -21,7 +20,7 @@ public class Seed
                     Id = 1,
                     Name = "Sketch",
                     Description = "A clean and expressive digital sketch of your character.",
-                    StartingPrice = 4m,
+                    StartingPrice = 5m,
                     PreviewUrl = DEFAULT_IMAGE_URL,
                     DisplayOrder = 0,
                     IsActive = true
@@ -29,8 +28,8 @@ public class Seed
                 new PricingCategory
                 {
                     Id = 2,
-                    Name = "Flat",
-                    Description = "Clean lineart filled with vibrant, eye-catching flat colors.",
+                    Name = "Lineart",
+                    Description = "Crisp, refined linework that captures the intricate details and anatomy of your character.",
                     StartingPrice = 6m,
                     PreviewUrl = DEFAULT_IMAGE_URL,
                     DisplayOrder = 1,
@@ -39,11 +38,21 @@ public class Seed
                 new PricingCategory
                 {
                     Id = 3,
-                    Name = "Shaded",
-                    Description = "Fully shaded and beautifully rendered artwork with depth and lighting.",
-                    StartingPrice = 10m,
+                    Name = "Flat coloured",
+                    Description = "Clean lineart filled with vibrant, solid colors to bring your design to life without complex shading.",
+                    StartingPrice = 8m,
                     PreviewUrl = DEFAULT_IMAGE_URL,
                     DisplayOrder = 2,
+                    IsActive = true
+                },
+                new PricingCategory
+                {
+                    Id = 4,
+                    Name = "Fully Shaded",
+                    Description = "Fully shaded and beautifully rendered artwork with dynamic depth, lighting, and rich textures.",
+                    StartingPrice = 13m,
+                    PreviewUrl = DEFAULT_IMAGE_URL,
+                    DisplayOrder = 3,
                     IsActive = true
                 }
             );
@@ -62,15 +71,15 @@ public class Seed
                 {
                     Id = 2,
                     Key = "Social_Instagram",
-                    Value = "https://instagram.com/chrdotomaart",
+                    Value = "https://www.instagram.com/itsnotenderart/",
                     Category = SettingCategory.SocialLink
                 },
                 new SiteSetting
                 {
                     Id = 3,
-                    Key = "Privacy_HeroImage",
+                    Key = "PolicyImage_1",
                     Value = DEFAULT_IMAGE_URL,
-                    Category = SettingCategory.PrivacyImage
+                    Category = SettingCategory.PolicyImage
                 },
                 new SiteSetting
                 {
@@ -81,7 +90,6 @@ public class Seed
                 }
             );
         }
-
         if (context.ChangeTracker.HasChanges())
         {
             await context.SaveChangesAsync();

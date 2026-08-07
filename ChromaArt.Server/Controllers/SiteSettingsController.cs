@@ -5,7 +5,6 @@ using ChromaArt.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChromaArt.Server.Controllers;
-
 [ApiController]
 [Route("api/site-settings")]
 public class SiteSettingsController(ISiteSettingsRepository siteSettingsRepository) : ControllerBase
@@ -18,10 +17,10 @@ public class SiteSettingsController(ISiteSettingsRepository siteSettingsReposito
         SiteSettingDto[] dtos = [.. results.Select(s => s.ToDto())];
         return Ok(dtos);
     }
-    [HttpGet("privacy")]
-    public async Task<IActionResult> GetPrivacyRecordsAsync()
+    [HttpGet("policy")]
+    public async Task<IActionResult> GetPolicyRecordsAsync()
     {
-        SiteSetting[] results = await _repo.GetAllPrivacyRecordsAsync();
+        SiteSetting[] results = await _repo.GetAllPolicyRecordsAsync();
         SiteSettingDto[] dtos = [.. results.Select(s => s.ToDto())];
         return Ok(dtos);
     }

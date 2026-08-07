@@ -4,7 +4,8 @@ namespace ChromaArt.Server.Models;
 public class PricingCategory
 {
     [Key]
-    public required int Id { get; set; }
+    [Required]
+    public int Id { get; set; }
     [StringLength(80, MinimumLength = 3, ErrorMessage = "Name must be between 3 and 80 characters")]
     public required string Name { get; set; }
     [MinLength(5, ErrorMessage = "Description must be at least 5 characters")]

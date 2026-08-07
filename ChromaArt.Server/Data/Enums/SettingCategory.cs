@@ -1,7 +1,7 @@
 ﻿namespace ChromaArt.Server.Data.Enums;
 public enum SettingCategory
 {
-    PrivacyImage,
+    PolicyImage,
     SocialLink,
     CommissionInfo,
 }

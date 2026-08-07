@@ -5,7 +5,6 @@ using ChromaArt.Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChromaArt.Server.Repositories;
-
 public class SiteSettingsRepository(ApplicationDbContext context) : ISiteSettingsRepository
 {
     private readonly ApplicationDbContext _context = context;
@@ -29,9 +28,9 @@ public class SiteSettingsRepository(ApplicationDbContext context) : ISiteSetting
     {
         return await GetSiteSettingsByCategory(SettingCategory.SocialLink).ToArrayAsync();
     }
-    public async Task<SiteSetting[]> GetAllPrivacyRecordsAsync()
+    public async Task<SiteSetting[]> GetAllPolicyRecordsAsync()
     {
-        return await GetSiteSettingsByCategory(SettingCategory.PrivacyImage).ToArrayAsync();
+        return await GetSiteSettingsByCategory(SettingCategory.PolicyImage).ToArrayAsync();
     }
     public async Task<SiteSetting[]> GetAllCommissionInfoAsync()
     {
