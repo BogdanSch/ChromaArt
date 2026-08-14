@@ -2,6 +2,5 @@
 public enum SettingCategory
 {
     PolicyImage,
-    SocialLink,
     CommissionInfo,
 }

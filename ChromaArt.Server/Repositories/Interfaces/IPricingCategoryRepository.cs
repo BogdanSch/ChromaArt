@@ -2,7 +2,7 @@
 
 namespace ChromaArt.Server.Repositories.Interfaces;
 
-public interface IPricingCategoryRepository : IEntityWriter<PricingCategory>
+public interface IPricingCategoryRepository
 {
     Task<PricingCategory[]> GetAllAsync();
 }

@@ -1,8 +1,0 @@
-@use "sass:color";
-
-@function darken($color, $percentage) {
-  @return color.adjust($color, $lightness: -$percentage);
-}
-@function changeOpacity($color, $rate) {
-  @return color.adjust($color, $alpha: $rate);
-}

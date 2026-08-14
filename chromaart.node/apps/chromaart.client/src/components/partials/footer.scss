@@ -1,0 +1,39 @@
+@use "@scss/_variables.scss" as *;
+
+.footer {
+  margin-top: 4rem;
+  border-top: 1px solid rgba($primary, 0.3);
+  background: rgba($dark, 0.7);
+  backdrop-filter: blur(8px);
+
+  &__wrap {
+    @include flex-row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 0;
+  }
+
+  &__copyright,
+  &__credit {
+    margin: 0;
+    font-size: 1.25rem;
+    letter-spacing: 0.025em;
+  }
+
+  &__credit {
+    font-size: 1rem;
+    color: rgba($primary, 0.9);
+    font-weight: $fw-bold;
+  }
+}
+
+@media (max-width: 36rem) {
+  .footer {
+    &__wrap {
+      flex-direction: column;
+      text-align: center;
+      padding: 1rem 0;
+    }
+  }
+}

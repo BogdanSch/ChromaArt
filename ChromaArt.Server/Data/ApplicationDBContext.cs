@@ -7,6 +7,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<PricingCategory> PricingCategories => Set<PricingCategory>();
     public DbSet<SiteSetting> SiteSettings => Set<SiteSetting>();
+    public DbSet<SocialLink> SocialLinks => Set<SocialLink>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

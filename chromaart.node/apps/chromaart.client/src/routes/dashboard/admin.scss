@@ -1,0 +1,186 @@
+@use "@scss/_variables.scss" as *;
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: $dark;
+  color: $white;
+}
+
+.admin-sidebar {
+  width: 260px;
+  background-color: $blue-grey;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  z-index: 1000;
+
+  &__brand {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 0;
+      color: $primary;
+    }
+  }
+
+  &__nav {
+    padding: 1rem 0;
+    flex-grow: 1;
+
+    .nav-link {
+      color: rgba($white, 0.7);
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+
+      i {
+        margin-right: 10px;
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        color: $white;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      &.active {
+        color: $white;
+        background-color: rgba($primary, 0.1);
+        border-right: 3px solid $primary;
+      }
+    }
+  }
+
+  &__footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+.admin-content {
+  flex-grow: 1;
+  margin-left: 260px; // Offset for fixed sidebar
+  padding: 1rem 2rem;
+}
+
+// Page Common Styles
+.admin-page {
+  &__header {
+    margin-bottom: 2.5rem;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  &__subtitle {
+    color: rgba($white, 0.6);
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+// Card Styles
+.admin-card {
+  background-color: $blue-grey;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+
+  &__header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    padding: 1rem 1.25rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    color: rgba($white, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__stat {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  &__link {
+    color: $primary;
+    text-decoration: none;
+    font-weight: 600;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Table Styles
+.admin-table {
+  color: $white;
+  vertical-align: middle;
+
+  thead th {
+    color: rgba($white, 0.6);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.25rem;
+  }
+
+  tbody td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: $white;
+    background-color: transparent;
+  }
+
+  tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: $white;
+  }
+}
+
+// Modal & Form Overrides
+.admin-modal {
+  background-color: $blue-grey;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: $white;
+
+  .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+.admin-input {
+  background-color: $dark;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: $white;
+
+  &:focus {
+    background-color: $dark;
+    color: $white;
+    border-color: $primary;
+    box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+  }
+
+  &::placeholder {
+    color: rgba($white, 0.4);
+  }
+}

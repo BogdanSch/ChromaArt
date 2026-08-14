@@ -29,7 +29,8 @@ builder.Services.AddScoped<IInstagramService, InstagramService>();
 builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IPricingCategoryRepository, PricingCategoryRepository>();
-builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
+builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingRepository>();
+builder.Services.AddScoped<ISocialLinkRepository, SocialLinkRepository>();
 builder.Services.AddHttpClient<InstagramService>(httpClient =>
 {
     httpClient.DefaultRequestHeaders.Add("Accept", "application/json");

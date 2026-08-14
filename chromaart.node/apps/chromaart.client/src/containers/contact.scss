@@ -1,0 +1,95 @@
+@use "@scss/functions.scss";
+@use "@scss/_variables.scss" as *;
+
+.contact {
+  &__wrap {
+    padding: 1.5rem 0 0.5rem;
+  }
+
+  &__title {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 3vw, 3rem);
+    letter-spacing: 0.04em;
+    color: $white;
+  }
+
+  &__text {
+    max-width: 760px;
+    margin-bottom: 2rem;
+    color: rgba($white, 0.8);
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+
+  &__list {
+    @include flex-row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    @include flex-row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__link {
+    @include flex-row;
+    justify-content: center;
+    align-items: center;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      rgba($primary, 0.15),
+      rgba($sky-blue, 0.12)
+    );
+    border: 1px solid rgba($primary, 0.35);
+    box-shadow: $light-blue-shadow;
+    color: $white;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease,
+      background 0.25s ease;
+
+    &:hover,
+    &:focus {
+      transform: translateY(-4px) scale(1.04);
+      background: linear-gradient(
+        135deg,
+        rgba($primary, 0.26),
+        rgba($sky-blue, 0.2)
+      );
+      border-color: rgba($primary, 0.8);
+      box-shadow: 0 10px 22px rgba($primary, 0.26);
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: inherit;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .contact {
+    &__list {
+      justify-content: space-between;
+      gap: 0.9rem;
+    }
+
+    &__link {
+      width: 54px;
+      height: 54px;
+    }
+  }
+}

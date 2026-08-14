@@ -12,7 +12,7 @@ public class InstagramService : IInstagramService
     private readonly IOptions<ApifySettings> _apifySettings;
     private readonly ILogger<InstagramService> _logger;
     private readonly ICloudinaryService _cloudinaryService;
-    public const int ITEMS_PER_PAGE = 16;
+    public const int ITEMS_PER_PAGE = 20;
     public InstagramService(IOptions<ApifySettings> config, HttpClient client, ILogger<InstagramService> logger, ICloudinaryService cloudinaryService)
     {
         _client = client;
@@ -33,7 +33,7 @@ public class InstagramService : IInstagramService
             url.Append(_apifySettings.Value.Token);
             if (query.Page is not null) 
             {
-                int offset = query.Page.GetValueOrDefault(1) * ITEMS_PER_PAGE;
+                int offset = (query.Page.GetValueOrDefault(1) - 1) * ITEMS_PER_PAGE;
                 url.Append($"&limit={ITEMS_PER_PAGE}&offset={offset}");
             }
          
