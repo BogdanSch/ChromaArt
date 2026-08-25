@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, Virtual } from "swiper/modules";
 import { LazyImage } from "../components";
 import { Alert } from "react-bootstrap";
-import { API_URL } from "../variables";
+import { API_URL } from "shared/variables";
 import type { SiteSettingDto } from "../types";
 
 import "swiper/css";

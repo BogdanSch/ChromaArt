@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ChromaArt.Server.DTOs.SocialLinks;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChromaArt.Server.Models;
 public class SocialLink
@@ -10,4 +11,5 @@ public class SocialLink
     public required string PlatformName { get; set; }
     [StringLength(200, MinimumLength = 4, ErrorMessage = "The Url must be between 4 and 200 characters")]
     public required string Url { get; set; }
+    public SocialLinkDto ToDto() => new(Id, PlatformName, Url);
 }

@@ -3,3 +3,7 @@
 @function darken($color, $percentage) {
   @return color.adjust($color, $lightness: -$percentage);
 }
+
+@function lighten($color, $percentage) {
+  @return color.adjust($color, $lightness: $percentage);
+}

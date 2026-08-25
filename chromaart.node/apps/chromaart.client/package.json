@@ -21,7 +21,7 @@
     "react-dom": "^19.2.7",
     "sass": "^1.101.3",
     "swiper": "^14.0.7",
-    "jwt": "^1.0.0"
+    "jwt-react": "^1.0.0"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.101.4",

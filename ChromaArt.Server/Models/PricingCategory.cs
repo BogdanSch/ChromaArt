@@ -1,3 +1,4 @@
+using ChromaArt.Server.DTOs.PricingCategories;
 using System.ComponentModel.DataAnnotations;
 
 namespace ChromaArt.Server.Models;
@@ -16,4 +17,6 @@ public class PricingCategory
     [Range(0, 10e6, ErrorMessage = "Display order must be a positive number")]
     public required int DisplayOrder { get; set; } = 0;
     public required bool IsActive { get; set; } = true;
+    public PricingCategoryDto ToDto() =>
+        new(Id, Name, Description, StartingPrice, PreviewUrl, DisplayOrder, IsActive);
 }

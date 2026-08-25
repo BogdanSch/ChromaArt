@@ -1,5 +1,4 @@
 using ChromaArt.Server.DTOs.PricingCategories;
-using ChromaArt.Server.Extenssions.Mappers;
 using ChromaArt.Server.Models;
 using ChromaArt.Server.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;

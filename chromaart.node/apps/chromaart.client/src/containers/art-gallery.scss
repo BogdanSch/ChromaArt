@@ -1,4 +1,6 @@
-@use "../functions.scss";
+@use "@scss/_variables.scss" as *;
+@use "@scss/functions.scss" as *;
+
 .gallery {
   &__grid {
     display: grid;

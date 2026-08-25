@@ -1,5 +1,4 @@
 ﻿namespace ChromaArt.Server.Helpers;
-
 public static class DateHelper
 {
     public static readonly string DATE_TIME_FORMAT = "yyyy-MM-ddTHH:mm:ss";

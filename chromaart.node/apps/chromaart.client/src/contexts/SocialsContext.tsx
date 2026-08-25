@@ -2,7 +2,7 @@ import axios from "axios";
 import { createContext, useContext, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { SocialLinkDto } from "@/types";
-import { API_URL } from "@/variables";
+import { API_URL } from "shared/variables";
 
 type ISocialsContext = {
   data: SocialLinkDto[];

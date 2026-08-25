@@ -1,5 +1,4 @@
 ﻿using ChromaArt.Server.DTOs.SocialLinks;
-using ChromaArt.Server.Extenssions.Mappers;
 using ChromaArt.Server.Helpers;
 using ChromaArt.Server.Models;
 using ChromaArt.Server.Repositories.Interfaces;

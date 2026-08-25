@@ -1,8 +1,8 @@
 import { Row, Col, Card } from "react-bootstrap";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { STUDIO_NAME } from "@/variables";
+import { STUDIO_NAME } from "shared/variables";
 
-export const Route = createFileRoute("/dashboard/login")({
+export const Route = createFileRoute("/dashboard/")({
   component: AdminDashboard,
 });
 

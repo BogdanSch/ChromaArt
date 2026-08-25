@@ -10,7 +10,7 @@ public class InstagramController(IInstagramService instagramService) : Controlle
 {
     private readonly IInstagramService _instagramService = instagramService;
     private const int CACHING_DURATION_IN_SECONDS = 360;
-    public static readonly string[] HASHTAGS = { "digitalart" };
+    public static readonly string[] HASHTAGS = ["digitalart"];
     [HttpGet]
     [ResponseCache(Duration = CACHING_DURATION_IN_SECONDS, Location = ResponseCacheLocation.Any, VaryByQueryKeys = ["page"])]
     public async Task<IActionResult> Get([FromQuery] Query query)

@@ -1,4 +1,4 @@
-import { STUDIO_NAME } from "@/variables";
+import { STUDIO_NAME } from "shared/variables";
 import "./footer.scss";
 
 export default function Header() {

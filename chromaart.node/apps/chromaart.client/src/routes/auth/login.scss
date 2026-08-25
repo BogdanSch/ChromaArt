@@ -1,0 +1,67 @@
+@use "@scss/_variables.scss" as *;
+@use "@scss/functions.scss" as *;
+
+.auth {
+  &__wrap {
+    @include flex-col;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  &__logo {
+    font-family: "Fredoka", sans-serif;
+    font-size: 2.25rem;
+    font-weight: $fw-dark;
+    color: $primary;
+    text-decoration: none;
+    letter-spacing: 4px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      text-shadow: 0 0 12px rgba($primary, 0.6);
+    }
+  }
+
+  &__card {
+    background-color: $blue-grey;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    color: $white;
+  }
+
+  &__title {
+    font-weight: $fw-bold;
+    font-size: 2rem;
+  }
+
+  &__link {
+    color: $primary;
+    text-decoration: none;
+    font-weight: $fw-bold;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: lighten($primary, 10%);
+      text-decoration: underline;
+    }
+  }
+
+  &-input {
+    background-color: $dark;
+    border: 1px solid rgba($dark, 0.1);
+    color: $white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:focus {
+      background-color: $dark;
+      color: $white;
+      border-color: $primary;
+      box-shadow: 0 0 0 0.25rem rgba($primary, 0.25);
+    }
+    &::placeholder {
+      color: rgba($white, 0.4);
+    }
+  }
+}

@@ -22,6 +22,7 @@ public class JwtTokenService(IOptions<JwtSettings> jwtSettings) : IJwtTokenServi
             [
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName!),
+                new Claim(ClaimTypes.Email, user.Email!)
             ];
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 

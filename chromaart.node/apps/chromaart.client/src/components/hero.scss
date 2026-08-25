@@ -1,3 +1,5 @@
+@use "@scss/_variables" as *;
+
 .hero {
   position: relative;
   padding: clamp(1.5rem, 2vw, 4rem) 0;

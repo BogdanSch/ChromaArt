@@ -3,8 +3,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Alert, Button, Card } from "react-bootstrap";
 import { LazyImage } from "../components";
 import { useSocials } from "@/contexts/SocialsContext";
-import { API_URL } from "../variables";
+import { API_URL } from "shared/variables";
 import type { PostDto } from "../types";
+import "./art-gallery.scss";
 
 const QUERY_KEY: string = "instagramPosts";
 

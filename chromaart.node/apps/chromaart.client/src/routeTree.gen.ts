@@ -9,17 +9,34 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as Auth_rootRouteImport } from './routes/auth/_layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AuthAuthenticateRouteImport } from './routes/auth/authenticate'
+import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardPricingRouteImport } from './routes/dashboard/pricing'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
+import { Route as DashboardSocialsRouteImport } from './routes/dashboard/socials'
 
-const Auth_rootRoute = Auth_rootRouteImport.update({
-  id: '/auth/__root',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthAuthenticateRoute = AuthAuthenticateRouteImport.update({
+  id: '/auth/authenticate',
+  path: '/auth/authenticate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/auth/forgot-password',
+  path: '/auth/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
@@ -27,51 +44,131 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPricingRoute = DashboardPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSocialsRoute = DashboardSocialsRouteImport.update({
+  id: '/socials',
+  path: '/socials',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof Auth_rootRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/auth/authenticate': typeof AuthAuthenticateRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/dashboard/pricing': typeof DashboardPricingRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/socials': typeof DashboardSocialsRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof Auth_rootRoute
+  '/auth/authenticate': typeof AuthAuthenticateRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/dashboard/pricing': typeof DashboardPricingRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/socials': typeof DashboardSocialsRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/auth/__root': typeof Auth_rootRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/auth/authenticate': typeof AuthAuthenticateRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/dashboard/pricing': typeof DashboardPricingRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/socials': typeof DashboardSocialsRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/auth/login'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/auth/authenticate'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/dashboard/pricing'
+    | '/dashboard/settings'
+    | '/dashboard/socials'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/auth/login'
-  id: '__root__' | '/' | '/auth/__root' | '/auth/login'
+  to:
+    | '/'
+    | '/auth/authenticate'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/dashboard/pricing'
+    | '/dashboard/settings'
+    | '/dashboard/socials'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/auth/authenticate'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/dashboard/pricing'
+    | '/dashboard/settings'
+    | '/dashboard/socials'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  Auth_rootRoute: typeof Auth_rootRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  AuthAuthenticateRoute: typeof AuthAuthenticateRoute
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/auth/__root': {
-      id: '/auth/__root'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof Auth_rootRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/authenticate': {
+      id: '/auth/authenticate'
+      path: '/auth/authenticate'
+      fullPath: '/auth/authenticate'
+      preLoaderRoute: typeof AuthAuthenticateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/login': {
@@ -81,12 +178,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/pricing': {
+      id: '/dashboard/pricing'
+      path: '/pricing'
+      fullPath: '/dashboard/pricing'
+      preLoaderRoute: typeof DashboardPricingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/socials': {
+      id: '/dashboard/socials'
+      path: '/socials'
+      fullPath: '/dashboard/socials'
+      preLoaderRoute: typeof DashboardSocialsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardPricingRoute: typeof DashboardPricingRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardSocialsRoute: typeof DashboardSocialsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardPricingRoute: DashboardPricingRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardSocialsRoute: DashboardSocialsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  Auth_rootRoute: Auth_rootRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  AuthAuthenticateRoute: AuthAuthenticateRoute,
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
 }
 export const routeTree = rootRouteImport
