@@ -17,9 +17,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+{
+    options.TokenLifespan = TimeSpan.FromHours(2);
+});
 
 IConfigurationSection jwtSettings = builder.Configuration.GetSection(nameof(JwtSettings));
 builder.Services.ConfigureJwtAuthentication(jwtSettings);
+builder.Services.AddFluentEmail(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddResponseCaching();
 builder.Services.AddControllers();
@@ -31,6 +36,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IPricingCategoryRepository, PricingCategoryRepository>();
 builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingRepository>();
 builder.Services.AddScoped<ISocialLinkRepository, SocialLinkRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddHttpClient<InstagramService>(httpClient =>
 {
     httpClient.DefaultRequestHeaders.Add("Accept", "application/json");

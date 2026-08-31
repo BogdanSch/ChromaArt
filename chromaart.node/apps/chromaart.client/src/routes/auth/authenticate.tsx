@@ -20,9 +20,8 @@ type AuthComplete = "pending" | "success" | "fail";
 function Authenticate() {
   const { accessTokenExpirationTime, refreshTokenExpirationTime } =
     Route.useSearch();
-  const { authenticateUser, user } = useAuth();
-
   const [status, setStatus] = useState<AuthComplete>("pending");
+  const { authenticateUser, user } = useAuth();
 
   useEffect(() => {
     if (!accessTokenExpirationTime || !refreshTokenExpirationTime) {
@@ -36,7 +35,7 @@ function Authenticate() {
     })
       .then(() => {
         setStatus("success");
-        console.log("Successfully loaded user: ", user);
+        console.log("Successfully loaded the user: ", user);
       })
       .catch(() => setStatus("fail"));
   }, [accessTokenExpirationTime, refreshTokenExpirationTime, authenticateUser]);

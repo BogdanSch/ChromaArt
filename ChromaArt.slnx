@@ -1,8 +1,8 @@
 <Solution>
-  <Project Path="chromaart.client/chromaart.client.esproj">
+  <Project Path="D:/Projects/CSharp-Projects/Web/ChromaArt/chromaart.node/apps/chromaart.client/chromaart.client.esproj">
     <Build />
     <Deploy />
   </Project>
-  <Project Path="ChromaArt.Server/ChromaArt.Server.csproj" />
-  <Project Path="TypeScriptGenerator/TypeScriptGenerator.csproj" Id="1952adf0-6135-47ea-a778-70f4035c5dda" />
+  <Project Path="D:/Projects/CSharp-Projects/Web/ChromaArt/ChromaArt.Server/ChromaArt.Server.csproj" />
+  <Project Path="D:/Projects/CSharp-Projects/Web/ChromaArt/TypeScriptGenerator/TypeScriptGenerator.csproj" Id="1952adf0-6135-47ea-a778-70f4035c5dda" />
 </Solution>

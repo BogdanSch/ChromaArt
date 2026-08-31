@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { redirect } from "@tanstack/react-router";
-import { useCustomForm } from "shared/hooks";
 import { Alert, Button, Form } from "react-bootstrap";
+import { useCustomForm } from "shared/hooks";
 import type { LoginDto } from "@/types";
-import { API_URL } from "shared/variables";
 import type { TokenDataDto } from "jwt-react/types";
+import { API_URL } from "shared/variables";
 import "@/utils/stringHelper";
 
 const getDefaultData = (): LoginDto => ({
@@ -103,7 +103,7 @@ export default function LoginForm() {
             type="reset"
             className="btn-lg auth__btn"
           >
-            Reset
+            Clear
           </Button>
         </Form.Group>
       </Form>

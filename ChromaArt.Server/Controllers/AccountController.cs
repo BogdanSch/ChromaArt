@@ -1,20 +1,23 @@
 using ChromaArt.Server.Data;
 using ChromaArt.Server.DTOs.AppUsers;
+using ChromaArt.Server.Helpers;
 using ChromaArt.Server.Models;
 using ChromaArt.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace ChromaArt.Server.Controllers;
 [ApiController]
 [Route("api/accounts")]
-public class AccountController(UserManager<AppUser> userManager, IJwtTokenService tokenService) : ControllerBase
+public class AccountController(UserManager<AppUser> userManager, IJwtTokenService tokenService, IEmailService emailService) : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager = userManager;
     private readonly IJwtTokenService _tokenService = tokenService;
+    private readonly IEmailService _emailService = emailService;
     private async Task<IActionResult> IssueTokenAndReturnResponseAsync(AppUser user, bool rememberUser = true)
     {
         IList<string> roles = await _userManager.GetRolesAsync(user);
@@ -79,8 +82,45 @@ public class AccountController(UserManager<AppUser> userManager, IJwtTokenServic
         UserDto userDto = appUser.ToDto(await _userManager.IsInRoleAsync(appUser, UserRoles.Admin));
         return Ok(userDto);
     }
-    public async Task<IActionResult> ResetPassword()
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
     {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
 
+        AppUser? target = await _userManager.FindByEmailAsync(dto.Email);
+        if (target is null)
+            return BadRequest("Invalid request");
+
+        string token = await _userManager.GeneratePasswordResetTokenAsync(target);
+        Dictionary<string, string?> queryParameters = new()
+        {
+            { "token", token },
+            { "email", dto.Email }
+        };
+
+        string callback = QueryHelpers.AddQueryString(dto.ClientUri, queryParameters);
+        EmailMetadata emailData = new(target.Email!, "Reset password request");
+        await _emailService.SendPasswordResetMessageAsync(emailData, callback);
+
+        return NoContent();
+    }
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+    {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        AppUser? target = await _userManager.FindByEmailAsync(dto.Email);
+        if (target is null)
+            return BadRequest("Invalid request");
+
+        IdentityResult result = await _userManager.ResetPasswordAsync(target, dto.Token, dto.Password);
+        if(!result.Succeeded)
+        {
+            IEnumerable<string> errors = result.Errors.Select(e => e.Description);
+            return BadRequest(errors);
+        }
+        return NoContent();
     }
 }

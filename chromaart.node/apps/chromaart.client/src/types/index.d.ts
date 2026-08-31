@@ -37,3 +37,23 @@ export type LoginDto = {
   password: string;
   rememberMe: boolean;
 };
+
+export type ForgotPasswordDto = {
+  email: string;
+  clientUri: string;
+}
+
+export type ResetPasswordDto = {
+  password: string;
+  confirmPassword: string;
+  email: string;
+  token: string;
+}
+
+export type UserDto = {
+  email: string;
+  userName: string;
+  phoneNumber: string;
+  registeredAt: string;
+  isAdmin: boolean;
+}
