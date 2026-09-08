@@ -46,7 +46,7 @@ body {
   width: 100%;
   filter: blur(100px);
   animation-name: bgAnimation;
-  animation-duration: 10s;
+  animation-duration: 30s;
   animation-iteration-count: infinite;
   background: linear-gradient(
     var(--rotate),
@@ -98,11 +98,12 @@ section {
 
   &-primary {
     border: none;
-    background-color: $primary !important;
+    background-color: $primary;
     color: $white;
     @include primary-btn;
   }
   &-outline-primary {
+
     border: 2px solid $primary !important;
     color: $white;
     @include primary-btn;

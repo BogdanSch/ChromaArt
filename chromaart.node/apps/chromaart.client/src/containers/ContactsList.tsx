@@ -1,7 +1,6 @@
 import { useSocials } from "@/contexts/SocialsContext";
 import { getIconClass } from "@/utils/iconHelper";
 import { Alert } from "react-bootstrap";
-import "./contact.scss";
 
 export default function ContactsList() {
   const { data, isLoading, error } = useSocials();

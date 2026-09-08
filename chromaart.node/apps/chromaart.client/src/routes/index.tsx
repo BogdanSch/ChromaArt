@@ -7,6 +7,7 @@ import {
 } from "../containers";
 import { Hero } from "@/components";
 import { Container } from "react-bootstrap";
+import "@scss/pages/contact.scss";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -54,18 +55,16 @@ function Index() {
         </div>
       </section>
       <section className="contact" id="contact">
-        <div className="container">
+        <Container>
           <div className="contact__wrap">
-            <div className="text-center">
-              <h2 className="contact__title">Get in Touch</h2>
-              <p className="contact__text">
-                Ready to commission a piece, or have a question about my work?
-                Reach out directly through any of the channels below.
-              </p>
-            </div>
-            <ContactsList />
+            <h2 className="contact__title">Get in Touch</h2>
+            <p className="contact__text">
+              Ready to commission a piece, or have a question about my work?
+              Reach out directly through any of the channels below.
+            </p>
           </div>
-        </div>
+          <ContactsList />
+        </Container>
       </section>
     </>
   );

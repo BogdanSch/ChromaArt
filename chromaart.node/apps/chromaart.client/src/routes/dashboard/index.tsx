@@ -1,5 +1,6 @@
-import { Row, Col, Card } from "react-bootstrap";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useAuth } from "jwt-react/context/AuthContext";
+import { Row, Col, Card } from "react-bootstrap";
 import { STUDIO_NAME } from "shared/variables";
 
 export const Route = createFileRoute("/dashboard/")({
@@ -7,12 +8,13 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function AdminDashboard() {
+  const { user } = useAuth();
   return (
     <div className="admin-page">
       <div className="admin-page__header">
-        <h1 className="admin-page__title">Welcome back, ${STUDIO_NAME}!</h1>
+        <h1 className="admin-page__title">Welcome back, {user?.userName}!</h1>
         <p className="admin-page__subtitle">
-          Here is an overview of your studio's status.
+          Here is an overview of {STUDIO_NAME}'s status.
         </p>
       </div>
       <Row className="g-4">

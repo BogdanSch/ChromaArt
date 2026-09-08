@@ -73,12 +73,13 @@ public class JwtTokenService(IOptions<JwtSettings> jwtSettings) : IJwtTokenServi
     }
     public void SetTokensInsideCookie(TokenObject token, HttpContext context)
     {
+        bool secureFlag = context.Request.IsHttps;
         context.Response.Cookies.Append("accessToken", token.AccessToken, new CookieOptions
         {
             Expires = token.AccessTokenExpirationTime,
             HttpOnly = true,
             IsEssential = true,
-            Secure = true,
+            Secure = secureFlag,
             SameSite = SameSiteMode.None,
         });
         context.Response.Cookies.Append("refreshToken", token.RefreshToken, new CookieOptions
@@ -86,7 +87,7 @@ public class JwtTokenService(IOptions<JwtSettings> jwtSettings) : IJwtTokenServi
             Expires = token.RefreshTokenExpirationTime,
             HttpOnly = true,
             IsEssential = true,
-            Secure = true,
+            Secure = secureFlag,
             SameSite = SameSiteMode.None,
         });
     }

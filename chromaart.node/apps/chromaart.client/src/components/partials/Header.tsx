@@ -1,8 +1,9 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useSocials } from "@/contexts/SocialsContext";
-import "@/utils/stringHelper";
+import { useAuth } from "jwt-react/context/AuthContext";
 import { getIconClass } from "@/utils/iconHelper";
+import "@/utils/stringHelper";
 import "./header.scss";
 
 type LandingLink = {
@@ -20,10 +21,10 @@ const getMainNavLinks = (): LandingLink[] => [
 
 export default function Header() {
   const location = useLocation();
+  const { data, isLoading } = useSocials();
 
   const [mainNavLinks, setMainNavLinks] =
     useState<LandingLink[]>(getMainNavLinks());
-
   useEffect(() => {
     const targetHash: string = location.hash.replace("#", "").trim();
     const newMainNavLinks = getMainNavLinks();
@@ -32,8 +33,7 @@ export default function Header() {
     });
     setMainNavLinks(newMainNavLinks);
   }, [location.hash]);
-
-  const { data, isLoading } = useSocials();
+  const { isAdmin } = useAuth();
 
   if (isLoading) return <p>Loading...</p>;
   return (
@@ -99,11 +99,19 @@ export default function Header() {
             </div>
             <div className="collapse navbar-collapse" id="auth-nav">
               <ul className="auth__navbar navbar-nav">
-                <li className="nav-item">
-                  <Link className="btn btn-outline-primary" to="/auth/login">
-                    Login
-                  </Link>
-                </li>
+                {isAdmin() ? (
+                  <li className="nav-item">
+                    <Link className="btn btn-outline-primary" to="/dashboard">
+                      <i className="bi bi-person-fill-check" />
+                    </Link>
+                  </li>
+                ) : (
+                  <li className="nav-item">
+                    <Link className="btn btn-outline-primary" to="/auth/login">
+                      Login
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </nav>

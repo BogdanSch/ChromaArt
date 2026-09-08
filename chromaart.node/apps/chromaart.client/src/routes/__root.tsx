@@ -5,7 +5,11 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { AuthContextProps } from "jwt-react/context/AuthContext";
-import { AuthLayout, RegularLayout, DashboardLayout } from "./_layouts";
+import {
+  AuthLayout,
+  RegularLayout,
+  DashboardLayout,
+} from "@/components/layouts";
 
 export interface IRouterContext {
   auth: AuthContextProps;

@@ -31,9 +31,9 @@ public class InstagramService : IInstagramService
         {
             StringBuilder url = new("actor-tasks/bogsvity777~instagram-scraper-arts-task/runs/last/dataset/items?token=");
             url.Append(_apifySettings.Value.Token);
-            if (query.Page is not null) 
+            if (query.Page.HasValue) 
             {
-                int offset = (query.Page.GetValueOrDefault(1) - 1) * ITEMS_PER_PAGE;
+                int offset = (query.Page.Value - 1) * ITEMS_PER_PAGE;
                 url.Append($"&limit={ITEMS_PER_PAGE}&offset={offset}");
             }
          

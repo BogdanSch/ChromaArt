@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useState } from "react";
-import { redirect } from "@tanstack/react-router";
-import { Alert, Button, Form } from "react-bootstrap";
-import { useCustomForm } from "shared/hooks";
+import { useState, type SyntheticEvent } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { Button, Form } from "react-bootstrap";
+import { PasswordInput } from "@/components";
+import { useNetworkError, useCustomForm } from "@/hooks";
 import type { LoginDto } from "@/types";
 import type { TokenDataDto } from "jwt-react/types";
 import { API_URL } from "shared/variables";
-import "@/utils/stringHelper";
 
 const getDefaultData = (): LoginDto => ({
   email: "",
@@ -14,18 +14,27 @@ const getDefaultData = (): LoginDto => ({
   rememberMe: false,
 });
 
-export default function LoginForm() {
+export function LoginForm() {
+  const navigate = useNavigate({ from: "/auth/login" });
   const [formData, setFormData] = useState<LoginDto>(getDefaultData());
-  const [requestError, setRequestError] = useState<string | null>();
   const { handleChange } = useCustomForm(setFormData);
+  const { alert, handleErrorOutput, resetError } = useNetworkError(
+    "Error, couldn't sign in. Please try again later.",
+  );
 
-  const onSubmit = async (): Promise<void> => {
+  const onSubmit = async (e: SyntheticEvent): Promise<void> => {
+    e.preventDefault();
+    resetError();
+
     try {
       const { data } = await axios.post<TokenDataDto>(
-        `${API_URL}/account/login`,
+        `${API_URL}/accounts/login`,
         formData,
+        {
+          withCredentials: true,
+        },
       );
-      redirect({
+      navigate({
         to: "/auth/authenticate",
         search: {
           accessTokenExpirationTime: encodeURIComponent(
@@ -37,29 +46,22 @@ export default function LoginForm() {
         },
       });
     } catch (e) {
-      let message: string = "Error, couldn't sign in. Please try again later.";
-      if (axios.isAxiosError(e) && e.response && e.response.data) {
-        message = e.response.data.message;
-      }
-      console.error(message, e);
+      handleErrorOutput(e);
     }
   };
   const onReset = () => {
-    setRequestError(null);
+    resetError();
     setFormData(getDefaultData());
   };
 
   return (
     <>
-      {requestError?.isNullOrWhitespace() && (
-        <Alert variant="danger">{requestError}</Alert>
-      )}
+      {alert}
       <Form onSubmit={onSubmit} onReset={onReset}>
-        <Form.Group className="mb-4" controlId="loginEmail">
-          <Form.Label htmlFor="email">Email address:</Form.Label>
+        <Form.Group className="mb-4" controlId="email">
+          <Form.Label>Email address:</Form.Label>
           <Form.Control
             name="email"
-            id="email"
             type="email"
             placeholder="Enter your email"
             className="auth-input"
@@ -69,11 +71,10 @@ export default function LoginForm() {
             required
           />
         </Form.Group>
-        <Form.Group className="mb-4" controlId="loginPassword">
+        <Form.Group className="mb-4" controlId="password">
           <Form.Label>Password:</Form.Label>
-          <Form.Control
+          {/* <Form.Control
             name="password"
-            id="password"
             type="password"
             placeholder="Enter your password"
             className="auth-input"
@@ -81,12 +82,16 @@ export default function LoginForm() {
             value={formData.password}
             autoComplete="current-password"
             required
-          />
+          /> */}
+          <PasswordInput value={formData.password} onChange={handleChange} />
+          <Form.Text id="passwordHelpInline" muted>
+            Your password must be at least 8 characters long, contain letters,
+            special characters, and numbers, and must not contain emoji.
+          </Form.Text>
         </Form.Group>
-        <Form.Group className="mb-4" controlId="loginRemember">
+        <Form.Group className="mb-4" controlId="rememberMe">
           <Form.Check
             name="rememberMe"
-            id="rememberMe"
             type="checkbox"
             label="Remember me"
             className="auth__checkbox"

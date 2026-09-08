@@ -1,7 +1,7 @@
 import { Link, Outlet } from "@tanstack/react-router";
 import { Card, Col, Row } from "react-bootstrap";
-import "./auth.scss";
 import { STUDIO_NAME } from "shared/variables";
+import "./auth.scss";
 
 export default function AuthLayout() {
   return (

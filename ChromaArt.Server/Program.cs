@@ -40,11 +40,13 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddHttpClient<InstagramService>(httpClient =>
 {
     httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+    httpClient.BaseAddress = new Uri("https://api.apify.com/v2/");
 });
-
+//Configurations
 builder.Services.Configure<ApifySettings>(builder.Configuration.GetSection(nameof(ApifySettings)));
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection(nameof(CloudinarySettings)));
 builder.Services.Configure<JwtSettings>(jwtSettings);
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

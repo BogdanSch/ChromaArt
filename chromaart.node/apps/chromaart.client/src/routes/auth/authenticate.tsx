@@ -28,6 +28,7 @@ function Authenticate() {
       setStatus("fail");
       return;
     }
+    // debugger;
 
     authenticateUser({
       accessTokenExpirationTime,

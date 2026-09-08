@@ -1,27 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Container, Card, Button } from "react-bootstrap";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Container, Card } from "react-bootstrap";
 import { LoginForm } from "@/containers";
-import axios from "axios";
-import { API_URL } from "shared/variables";
 
 export const Route = createFileRoute("/auth/login")({
   component: Login,
 });
 
 function Login() {
-  const handleForgotPassword = async (): Promise<void> => {
-    try {
-      await axios.post(`${API_URL}/accounts/forgot-password`);
-    } catch (e) {
-      let errorMessage: string = "Couldn't send the password reset link.";
-      if (axios.isAxiosError(e) && e.response && e.response.data) {
-        errorMessage = e.response.data.message;
-      }
-      console.error(errorMessage, e);
-      throw new Error(errorMessage);
-    }
-  };
-
   return (
     <section className="auth">
       <Container>
@@ -34,9 +19,9 @@ function Login() {
           </Card>
           <Card className="auth__card">
             <Card.Body className="text-center">
-              <Button className="auth__link" onClick={handleForgotPassword}>
+              <Link className="auth__link" to="/auth/forgot-password">
                 Forgot Password?
-              </Button>
+              </Link>
             </Card.Body>
           </Card>
         </div>

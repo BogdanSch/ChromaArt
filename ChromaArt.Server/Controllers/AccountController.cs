@@ -37,16 +37,18 @@ public class AccountController(UserManager<AppUser> userManager, IJwtTokenServic
         if(!ModelState.IsValid) 
             return BadRequest(ModelState);
 
+        string genericErrorMessage = "Invalid username or password.";
+
         AppUser? user = await _userManager.FindByEmailAsync(loginDto.Email);
         if(user is null) 
-            return Unauthorized();
+            return Unauthorized(genericErrorMessage);
 
         bool result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
         if (user is not null && result)
         {
             return await IssueTokenAndReturnResponseAsync(user, loginDto.RememberMe);
         }
-        return Unauthorized();
+        return Unauthorized(genericErrorMessage);
     }
     private async Task<AppUser?> GetUserByRefreshTokenAsync(string refreshToken)
     {

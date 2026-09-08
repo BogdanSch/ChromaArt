@@ -7,6 +7,7 @@ import path from "path";
 import child_process from "child_process";
 import { env } from "process";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import mkcert from "vite-plugin-mkcert";
 
 const baseFolder =
   env.APPDATA !== undefined && env.APPDATA !== ""
@@ -50,6 +51,7 @@ export default defineConfig({
       autoCodeSplitting: true,
     }),
     plugin(),
+    mkcert()
   ],
   // optimizeDeps: {
   //   exclude: ["jwt-react", "shared"],

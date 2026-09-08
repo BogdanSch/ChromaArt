@@ -14,19 +14,29 @@ public static class AuthExtenssions
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-.AddJwtBearer(jwtOptions =>
-{
-    jwtOptions.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!))
-    };
-});
+        .AddJwtBearer(jwtOptions =>
+        {
+            jwtOptions.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!))
+            };
+            jwtOptions.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = ctx =>
+                {
+                    ctx.Request.Cookies.TryGetValue("accessToken", out var accessToken);
+                    if (!string.IsNullOrWhiteSpace(accessToken))
+                        ctx.Token = accessToken;
+                    return Task.CompletedTask;
+                }
+            };
+        });
         services.Configure<IdentityOptions>(options =>
         {
             options.Password.RequireDigit = true;

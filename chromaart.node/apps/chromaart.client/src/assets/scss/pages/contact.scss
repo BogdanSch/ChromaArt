@@ -3,6 +3,7 @@
 
 .contact {
   &__wrap {
+    text-align: center;
     padding: 1.5rem 0 0.5rem;
   }
 
@@ -10,15 +11,13 @@
     margin-bottom: 1rem;
     font-size: clamp(2rem, 3vw, 3rem);
     letter-spacing: 0.04em;
-    color: $white;
   }
 
   &__text {
-    max-width: 760px;
     margin-bottom: 2rem;
     color: rgba($white, 0.8);
     line-height: 1.7;
-    font-size: 1.05rem;
+    font-size: 1.25rem;
   }
 
   &__list {
