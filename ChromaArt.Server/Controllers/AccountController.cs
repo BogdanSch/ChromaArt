@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using ChromaArt.Server.Extenssions;
 
 namespace ChromaArt.Server.Controllers;
 [ApiController]
@@ -34,21 +35,18 @@ public class AccountController(UserManager<AppUser> userManager, IJwtTokenServic
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
-        if(!ModelState.IsValid) 
-            return BadRequest(ModelState);
-
         string genericErrorMessage = "Invalid username or password.";
 
         AppUser? user = await _userManager.FindByEmailAsync(loginDto.Email);
-        if(user is null) 
-            return Unauthorized(genericErrorMessage);
+        if (user is null)
+            return this.UnauthorizedRequestProblem(genericErrorMessage);
 
         bool result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
         if (user is not null && result)
         {
             return await IssueTokenAndReturnResponseAsync(user, loginDto.RememberMe);
         }
-        return Unauthorized(genericErrorMessage);
+        return this.UnauthorizedRequestProblem(genericErrorMessage);
     }
     private async Task<AppUser?> GetUserByRefreshTokenAsync(string refreshToken)
     {
@@ -60,13 +58,13 @@ public class AccountController(UserManager<AppUser> userManager, IJwtTokenServic
     {
         HttpContext.Request.Cookies.TryGetValue("refreshToken", out var refreshToken);
         if (string.IsNullOrWhiteSpace(refreshToken))
-            return Unauthorized("The refresh token was empty");
+            return this.UnauthorizedRequestProblem("The refresh token was empty");
 
         AppUser? user = await GetUserByRefreshTokenAsync(refreshToken);
         if (user is null)
-            return Unauthorized("Invalid refresh token");
+            return this.UnauthorizedRequestProblem("Invalid refresh token");
         if (user.RefreshTokenExpiresAtUtc < DateTime.UtcNow)
-            return Unauthorized("Refresh token has already expired");
+            return this.UnauthorizedRequestProblem("Refresh token has already expired");
         return await IssueTokenAndReturnResponseAsync(user);
     }
     [HttpGet("me")]
@@ -75,11 +73,11 @@ public class AccountController(UserManager<AppUser> userManager, IJwtTokenServic
     {
         string? email = User.FindFirst(ClaimTypes.Email)?.Value;
         if (string.IsNullOrWhiteSpace(email))
-            return Unauthorized("Invalid user confirmation token");
+            return this.UnauthorizedRequestProblem("Invalid user confirmation token");
 
         AppUser? appUser = await _userManager.FindByEmailAsync(email);
         if (appUser is null)
-            return Unauthorized(new { message = "User was not found" });
+            return this.NotFoundRequestProblem("User was not found");
 
         UserDto userDto = appUser.ToDto(await _userManager.IsInRoleAsync(appUser, UserRoles.Admin));
         return Ok(userDto);
@@ -87,12 +85,9 @@ public class AccountController(UserManager<AppUser> userManager, IJwtTokenServic
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
     {
-        if(!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         AppUser? target = await _userManager.FindByEmailAsync(dto.Email);
         if (target is null)
-            return BadRequest("Invalid request");
+            return this.BadRequestProblem("Invalid request");
 
         string token = await _userManager.GeneratePasswordResetTokenAsync(target);
         Dictionary<string, string?> queryParameters = new()
@@ -110,18 +105,15 @@ public class AccountController(UserManager<AppUser> userManager, IJwtTokenServic
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
     {
-        if(!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         AppUser? target = await _userManager.FindByEmailAsync(dto.Email);
         if (target is null)
-            return BadRequest("Invalid request");
+            return this.BadRequestProblem("Invalid request");
 
         IdentityResult result = await _userManager.ResetPasswordAsync(target, dto.Token, dto.Password);
         if(!result.Succeeded)
         {
             IEnumerable<string> errors = result.Errors.Select(e => e.Description);
-            return BadRequest(errors);
+            return this.BadRequestProblem(string.Join(", ", errors));
         }
         return NoContent();
     }

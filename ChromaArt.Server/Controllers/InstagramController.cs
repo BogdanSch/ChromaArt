@@ -2,6 +2,7 @@ using ChromaArt.Server.Services.Interfaces;
 using ChromaArt.Server.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using ChromaArt.Server.DTOs.Posts;
+using ChromaArt.Server.Extenssions;
 
 namespace ChromaArt.Server.Controllers;
 [ApiController]
@@ -24,11 +25,11 @@ public class InstagramController(IInstagramService instagramService) : Controlle
     public async Task<IActionResult> ProxyImage([FromQuery] string url)
     {
         if (string.IsNullOrWhiteSpace(url))
-            return BadRequest("URL is required.");
+            return this.BadRequestProblem("URL is required.");
 
         (Stream, string)? file = await _instagramService.FetchImagesAsync(url);
         if(file is null)
-            return BadRequest("Unable to fetch the image from the provided URL.");
+            return this.BadRequestProblem("Unable to fetch the image from the provided URL.");
 
         return File(file.Value.Item1, file.Value.Item2);
     }

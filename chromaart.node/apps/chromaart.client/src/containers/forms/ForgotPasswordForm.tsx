@@ -13,10 +13,10 @@ const getDefaultData = (): ForgotPasswordDto => ({
 
 export function ForgotPasswordForm() {
   const [formData, setFormData] = useState<ForgotPasswordDto>(getDefaultData());
-  const { alert, handleErrorOutput, resetError } = useNetworkError(
+  const { validationErrors, handleErrorOutput, resetError } = useNetworkError(
     "Error, couldn't send the password reset link.",
   );
-  const { isPending, isSuccess, mutate } = useMutation({
+  const { isPending, isSuccess, mutate, isError, error } = useMutation({
     mutationFn: async () => {
       try {
         await axios.post(`${API_URL}/accounts/forgot-password`, formData);
@@ -32,7 +32,6 @@ export function ForgotPasswordForm() {
     resetError();
     mutate();
   };
-
   const handleReset = () => {
     resetError();
     setFormData(getDefaultData());
@@ -40,10 +39,10 @@ export function ForgotPasswordForm() {
 
   return (
     <Form onSubmit={handleSubmit} onReset={handleReset}>
-      {alert}
+      {isError && <Alert variant={"danger"}>{error?.message}</Alert>}
       <Alert variant="success" show={isSuccess && !alert} className="mb-4">
         If an account with that email exists, we have sent a password reset link
-        to your email. Please check your inbox.
+        to your email. Please check your inbox or spam folder.
       </Alert>
       <Form.Group className="mb-4" controlId="email">
         <Form.Label>Email address</Form.Label>
@@ -56,6 +55,9 @@ export function ForgotPasswordForm() {
           className="auth-input"
           required
         />
+        <Alert variant="danger" show={!!validationErrors.email}>
+          {validationErrors.email}
+        </Alert>
       </Form.Group>
       <Form.Group className="form-buttons mt-2">
         <Button

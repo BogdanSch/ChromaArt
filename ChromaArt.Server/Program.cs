@@ -21,6 +21,15 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 {
     options.TokenLifespan = TimeSpan.FromHours(2);
 });
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        context.ProblemDetails.Instance =
+            $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+    };
+});
+
 
 IConfigurationSection jwtSettings = builder.Configuration.GetSection(nameof(JwtSettings));
 builder.Services.ConfigureJwtAuthentication(jwtSettings);
@@ -83,6 +92,8 @@ app.UseForwardedHeaders();
 app.UseHttpsRedirection();
 
 app.UseCors();
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 app.UseResponseCaching();
 
 app.UseAuthentication();

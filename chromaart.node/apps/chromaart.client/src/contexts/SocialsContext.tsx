@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNetworkError } from "@/hooks";
 import type { SocialLinkDto } from "@/types";
 import { API_URL } from "shared/variables";
 
@@ -20,6 +21,13 @@ type ISocialsProviderProps = {
   children: ReactNode;
 };
 export function SocialsProvider({ children }: ISocialsProviderProps) {
+  const { handleErrorOutput: handleSocialLinksError } = useNetworkError(
+    "Couldn't fetch the social links.",
+  );
+  const { handleErrorOutput: handleInstagramError } = useNetworkError(
+    "Couldn't fetch the Instagram link.",
+  );
+
   const fetchSocialLinks = async (): Promise<SocialLinkDto[]> => {
     try {
       const { data } = await axios.get<SocialLinkDto[]>(
@@ -27,12 +35,9 @@ export function SocialsProvider({ children }: ISocialsProviderProps) {
       );
       return data;
     } catch (error) {
-      let errorMessage: string = "Couldn't fetch the social links.";
-      if (axios.isAxiosError(error) && error.response && error.response.data) {
-        errorMessage = error.response.data.message;
-      }
-      console.error(errorMessage, error);
-      throw new Error(errorMessage);
+      handleSocialLinksError(error);
+    } finally {
+      return [];
     }
   };
   const fetchInstagramLink = async (): Promise<SocialLinkDto | null> => {
@@ -42,14 +47,10 @@ export function SocialsProvider({ children }: ISocialsProviderProps) {
       );
 
       if (data.length > 0) return data[0];
-      return null;
     } catch (error) {
-      let errorMessage: string = "Couldn't fetch the Instagram link.";
-      if (axios.isAxiosError(error) && error.response && error.response.data) {
-        errorMessage = error.response.data.message;
-      }
-      console.error(errorMessage, error);
-      throw new Error(errorMessage);
+      handleInstagramError(error);
+    } finally {
+      return null;
     }
   };
 

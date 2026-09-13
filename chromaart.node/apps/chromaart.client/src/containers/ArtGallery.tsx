@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Alert, Button, Card } from "react-bootstrap";
-import { LazyImage } from "../components";
+import { LazyImage } from "@/components";
 import { useSocials } from "@/contexts/SocialsContext";
+import { useNetworkError } from "@/hooks";
 import { API_URL } from "shared/variables";
 import type { PostDto } from "../types";
 import "./art-gallery.scss";
@@ -16,19 +17,18 @@ export default function ArtGallery() {
     isLoading: isSocialLoading,
     error: socialError,
   } = useSocials();
+  const { handleErrorOutput } = useNetworkError(
+    "Error, could not fetch Instagram posts.",
+  );
 
   const fetchInstagramPosts = async (): Promise<PostDto[]> => {
     try {
       const { data } = await axios.get<PostDto[]>(`${API_URL}/instagram-posts`);
       return data;
-    } catch (error) {
-      let message: string = "Error fetching Instagram posts.";
-      if (axios.isAxiosError(error) && error.response && error.response.data) {
-        message = error.response.data?.message;
-      }
-
-      console.error(message, error);
-      throw new Error(message);
+    } catch (e) {
+      handleErrorOutput(e);
+    } finally {
+      return [];
     }
   };
   const handleImageLoadingError = (postId: string): void => {
@@ -48,7 +48,7 @@ export default function ArtGallery() {
   const errorMessage: string = error?.message || socialError || "";
   return (
     <>
-      <Alert variant={"danger"} show={!errorMessage.isNullOrWhitespace()}>
+      <Alert variant={"danger"} show={errorMessage.isNullOrWhitespace()}>
         {errorMessage}
       </Alert>
       <div className="gallery__grid">
@@ -87,7 +87,7 @@ export default function ArtGallery() {
       </div>
       <div className="gallery__actions mt-4">
         <Button href={instagramData?.url} target="_blank" variant="primary">
-          View more on Instagram
+          View more on <i className="bi bi-instagram" /> Instagram Instagram
         </Button>
       </div>
     </>

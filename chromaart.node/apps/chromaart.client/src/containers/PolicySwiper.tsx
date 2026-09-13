@@ -1,33 +1,30 @@
 import axios from "axios";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, Virtual } from "swiper/modules";
-import { LazyImage } from "../components";
-import { Alert } from "react-bootstrap";
+import { LazyImage } from "@/components";
+import { useNetworkError } from "@/hooks/useNetworkError";
 import { API_URL } from "shared/variables";
 import type { SiteSettingDto } from "../types";
 
+import { Alert } from "react-bootstrap";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 export default function PolicySwiper() {
-  const [requestError, setRequestError] = useState<string | null>(null);
+  const { handleErrorOutput } = useNetworkError(
+    "Error, could not fetch policy records.",
+  );
   const fetchPolicyRecords = async (): Promise<SiteSettingDto[]> => {
     try {
       const { data } = await axios.get<SiteSettingDto[]>(
         `${API_URL}/site-settings/policy`,
       );
       return data;
-    } catch (error) {
-      const defaultErrorMessage: string = "Error fetching policy records.";
-      console.error(defaultErrorMessage, error);
-      if (axios.isAxiosError(error) && error.response) {
-        setRequestError(error.response.data?.message);
-      } else {
-        setRequestError(defaultErrorMessage);
-      }
+    } catch (e) {
+      handleErrorOutput(e);
+    } finally {
       return [];
     }
   };
@@ -39,12 +36,11 @@ export default function PolicySwiper() {
 
   if (isLoading) {
     return <p>Loading...</p>;
+  } else if (error) {
+    return <Alert variant={"danger"}>{error.message}</Alert>;
   }
   return (
     <>
-      <Alert variant={"danger"} show={requestError !== null || error !== null}>
-        {requestError || error?.message}
-      </Alert>
       <Swiper
         pagination={{
           type: "progressbar",

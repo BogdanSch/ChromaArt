@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState, type SyntheticEvent } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Button, Form } from "react-bootstrap";
 import { PasswordInput } from "@/components";
 import { useNetworkError, useCustomForm } from "@/hooks";
 import type { LoginDto } from "@/types";
 import type { TokenDataDto } from "jwt-react/types";
 import { API_URL } from "shared/variables";
+import { Alert, Button, Form } from "react-bootstrap";
 
 const getDefaultData = (): LoginDto => ({
   email: "",
@@ -18,37 +19,42 @@ export function LoginForm() {
   const navigate = useNavigate({ from: "/auth/login" });
   const [formData, setFormData] = useState<LoginDto>(getDefaultData());
   const { handleChange } = useCustomForm(setFormData);
-  const { alert, handleErrorOutput, resetError } = useNetworkError(
+  const { validationErrors, handleErrorOutput, resetError } = useNetworkError(
     "Error, couldn't sign in. Please try again later.",
   );
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: async () => {
+      try {
+        const { data } = await axios.post<TokenDataDto>(
+          `${API_URL}/accounts/login`,
+          formData,
+          {
+            withCredentials: true,
+          },
+        );
+        navigate({
+          to: "/auth/authenticate",
+          search: {
+            accessTokenExpirationTime: encodeURIComponent(
+              data.accessTokenExpirationTime,
+            ),
+            refreshTokenExpirationTime: encodeURIComponent(
+              data.refreshTokenExpirationTime,
+            ),
+          },
+        });
+      } catch (e) {
+        handleErrorOutput(e);
+      }
+    },
+  });
 
   const onSubmit = async (e: SyntheticEvent): Promise<void> => {
     e.preventDefault();
     resetError();
-
-    try {
-      const { data } = await axios.post<TokenDataDto>(
-        `${API_URL}/accounts/login`,
-        formData,
-        {
-          withCredentials: true,
-        },
-      );
-      navigate({
-        to: "/auth/authenticate",
-        search: {
-          accessTokenExpirationTime: encodeURIComponent(
-            data.accessTokenExpirationTime,
-          ),
-          refreshTokenExpirationTime: encodeURIComponent(
-            data.refreshTokenExpirationTime,
-          ),
-        },
-      });
-    } catch (e) {
-      handleErrorOutput(e);
-    }
+    mutate();
   };
+
   const onReset = () => {
     resetError();
     setFormData(getDefaultData());
@@ -56,7 +62,7 @@ export function LoginForm() {
 
   return (
     <>
-      {alert}
+      {isError && <Alert variant={"danger"}>{error?.message}</Alert>}
       <Form onSubmit={onSubmit} onReset={onReset}>
         <Form.Group className="mb-4" controlId="email">
           <Form.Label>Email address:</Form.Label>
@@ -70,24 +76,20 @@ export function LoginForm() {
             value={formData.email}
             required
           />
+          <Alert variant="danger" show={!!validationErrors.email}>
+            {validationErrors.email}
+          </Alert>
         </Form.Group>
         <Form.Group className="mb-4" controlId="password">
           <Form.Label>Password:</Form.Label>
-          {/* <Form.Control
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            className="auth-input"
-            onChange={handleChange}
-            value={formData.password}
-            autoComplete="current-password"
-            required
-          /> */}
           <PasswordInput value={formData.password} onChange={handleChange} />
           <Form.Text id="passwordHelpInline" muted>
             Your password must be at least 8 characters long, contain letters,
             special characters, and numbers, and must not contain emoji.
           </Form.Text>
+          <Alert variant="danger" show={!!validationErrors.password}>
+            {validationErrors.password}
+          </Alert>
         </Form.Group>
         <Form.Group className="mb-4" controlId="rememberMe">
           <Form.Check
@@ -100,8 +102,13 @@ export function LoginForm() {
           />
         </Form.Group>
         <Form.Group className="form-buttons mt-2">
-          <Button variant="primary" type="submit" className="btn-lg auth__btn">
-            Log In
+          <Button
+            variant="primary"
+            type="submit"
+            className="btn-lg auth__btn"
+            disabled={isPending}
+          >
+            {isPending ? "Logging In..." : "Log In"}
           </Button>
           <Button
             variant="outline-danger"

@@ -22,10 +22,10 @@ export function ResetPasswordForm({ email, token }: ResetPasswordFormProps) {
   const [formData, setFormData] = useState<ResetPasswordDto>(
     getDefaultData(email, token),
   );
-  const { alert, handleErrorOutput, resetError } = useNetworkError(
+  const { validationErrors, handleErrorOutput, resetError } = useNetworkError(
     "Error, couldn't reset your password.",
   );
-  const { isPending, isSuccess, mutate } = useMutation({
+  const { isPending, isSuccess, mutate, isError, error } = useMutation({
     mutationFn: async () => {
       try {
         await axios.post(`${API_URL}/accounts/reset-password`, formData);
@@ -48,7 +48,7 @@ export function ResetPasswordForm({ email, token }: ResetPasswordFormProps) {
   };
   return (
     <Form onSubmit={handleSubmit} onReset={handleReset}>
-      {alert}
+      {isError && <Alert variant={"danger"}>{error?.message}</Alert>}
       <Alert variant="success" show={isSuccess && !alert} className="mb-3">
         Your password has been reset successfully. Try logging in with your new
         password.
@@ -64,6 +64,9 @@ export function ResetPasswordForm({ email, token }: ResetPasswordFormProps) {
           disabled
           required
         />
+        <Alert variant="danger" show={!!validationErrors.email}>
+          {validationErrors.email}
+        </Alert>
       </Form.Group>
       <Form.Group className="mb-3" controlId="resetPassword">
         <Form.Label>New Password</Form.Label>
@@ -76,6 +79,9 @@ export function ResetPasswordForm({ email, token }: ResetPasswordFormProps) {
           className="auth-input"
           required
         />
+        <Alert variant="danger" show={!!validationErrors.password}>
+          {validationErrors.password}
+        </Alert>
       </Form.Group>
       <Form.Group className="mb-4" controlId="resetConfirmPassword">
         <Form.Label>Confirm New Password</Form.Label>
@@ -88,6 +94,9 @@ export function ResetPasswordForm({ email, token }: ResetPasswordFormProps) {
           className="auth-input"
           required
         />
+        <Alert variant="danger" show={!!validationErrors.confirmPassword}>
+          {validationErrors.confirmPassword}
+        </Alert>
       </Form.Group>
       <Form.Group className="form-buttons mt-2">
         <Button

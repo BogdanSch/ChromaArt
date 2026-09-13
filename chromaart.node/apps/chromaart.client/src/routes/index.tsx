@@ -4,8 +4,8 @@ import {
   ContactsList,
   PolicySwiper,
   PricingSelector,
-} from "../containers";
-import { Hero } from "@/components";
+} from "@/containers";
+import { Hero, Message } from "@/components";
 import { Container } from "react-bootstrap";
 import "@scss/pages/contact.scss";
 
@@ -14,8 +14,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { message } = Route.useSearch();
   return (
     <>
+      <Message message={message} />
       <Hero />
       <section className="gallery" id="gallery">
         <Container>

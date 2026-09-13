@@ -1,27 +1,29 @@
 import axios from "axios";
-import { useState, type JSX } from "react";
-import { Alert } from "react-bootstrap";
+import { useState } from "react";
 
 export function useNetworkError(defaultMessage: string) {
-  const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
 
-  const handleErrorOutput = (error: unknown) => {
+  const handleErrorOutput = (error: unknown): void => {
     let errorMessage: string = defaultMessage;
-    if (axios.isAxiosError(error) && error.response && error.response.data) {
-      errorMessage = error.response.data;
+
+    if (axios.isAxiosError(error)) {
+      if (error.response?.data.errors) {
+        setValidationErrors(error.response.data.errors);
+        return;
+      } else if (error.response?.data.detail) {
+        errorMessage = error.response.data.detail;
+      }
     }
-    setError(errorMessage);
     console.error(errorMessage, error);
+    throw new Error(errorMessage);
   };
 
   const resetError = () => {
-    setError(null);
+    setValidationErrors({});
   };
 
-  const alert: JSX.Element = (
-    <Alert role="alert" variant="danger" show={!!error}>
-      {error}
-    </Alert>
-  );
-  return { alert, handleErrorOutput, resetError };
+  return { handleErrorOutput, resetError, validationErrors };
 }

@@ -46,24 +46,6 @@
       color: rgba($white, 0.4);
     }
   }
-  &-header {
-    &__wrap {
-      text-align: center;
-    }
-    &__logo {
-      font-family: "Fredoka", sans-serif;
-      font-size: 2.25rem;
-      font-weight: $fw-dark;
-      color: $primary;
-      text-decoration: none;
-      letter-spacing: 4px;
-      transition: all 0.3s ease;
-
-      &:hover {
-        text-shadow: 0 0 12px rgba($primary, 0.6);
-      }
-    }
-  }
   &__footer {
     &-text {
       margin-bottom: 0;
