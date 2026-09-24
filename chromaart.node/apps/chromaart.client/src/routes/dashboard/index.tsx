@@ -22,7 +22,7 @@ function AdminDashboard() {
           <Card className="admin-card">
             <Card.Body>
               <Card.Title className="admin-card__title">
-                Active Categories
+                Active Art Categories
               </Card.Title>
               <h2 className="admin-card__stat text-primary">4</h2>
               <Link to="/dashboard/pricing" className="admin-card__link">
@@ -37,7 +37,7 @@ function AdminDashboard() {
               <Card.Title className="admin-card__title">
                 Social Links
               </Card.Title>
-              <h2 className="admin-card__stat text-primary">2</h2>
+              <h2 className="admin-card__stat text-primary">3</h2>
               <Link to="/dashboard/socials" className="admin-card__link">
                 Manage Socials &rarr;
               </Link>
@@ -48,9 +48,9 @@ function AdminDashboard() {
           <Card className="admin-card">
             <Card.Body>
               <Card.Title className="admin-card__title">
-                System Status
+                Comissions Status
               </Card.Title>
-              <h2 className="admin-card__stat text-success">Online</h2>
+              <h2 className="admin-card__stat text-success">Open</h2>
               <Link to="/dashboard/settings" className="admin-card__link">
                 View Settings &rarr;
               </Link>

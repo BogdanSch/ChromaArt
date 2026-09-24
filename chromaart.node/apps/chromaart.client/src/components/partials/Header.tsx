@@ -1,16 +1,18 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { useSocials } from "@/contexts/SocialsContext";
 import { useAuth } from "jwt-react/context/AuthContext";
 import { getIconClass } from "@/utils/iconHelper";
 import "@/utils/stringHelper";
 import "./header.scss";
+import { Navbar } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
 type LandingLink = {
   text: string;
   hash: string;
   isActive: boolean;
 };
+
 const getMainNavLinks = (): LandingLink[] => [
   { text: "Home", hash: "", isActive: false },
   { text: "Gallery", hash: "gallery", isActive: false },
@@ -40,22 +42,15 @@ export default function Header() {
     <header className="header">
       <div className="container">
         <div className="header__wrap">
-          <nav className="header__navbar navbar navbar-expand-lg">
+          <Navbar className="header__navbar" expand="lg">
             <Link className="header__logo navbar-brand" to="/">
               ChromaArt
             </Link>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#main-nav, #auth-nav"
-              aria-controls="main-nav"
-              aria-expanded="true"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="main-nav">
+            <Navbar.Toggle
+              aria-controls="main-nav, auth-nav, socials-nav"
+              data-bs-target="#main-nav, #auth-nav, #socials-nav"
+            />
+            <Navbar.Collapse id="main-nav">
               <ul className="navbar-nav">
                 {mainNavLinks.map((link, index) => {
                   return (
@@ -63,18 +58,18 @@ export default function Header() {
                       className={`nav-item${link.isActive ? " active" : ""}`}
                       key={`main-nav-${index}`}
                     >
-                      <a
+                      <Link
                         className="nav-link"
-                        href={`/${!link.hash.isNullOrWhitespace() ? `#${link.hash}` : ""}`}
+                        to={`/${!link.hash.isNullOrWhitespace() ? `#${link.hash}` : ""}`}
                       >
                         {link.text}
-                      </a>
+                      </Link>
                     </li>
                   );
                 })}
               </ul>
-            </div>
-            <div className="social-media">
+            </Navbar.Collapse>
+            <Navbar.Collapse className="social-media" id="socials-nav">
               <ul className="mb-0 social-media__list">
                 {data.map((link, index) => (
                   <li
@@ -96,8 +91,8 @@ export default function Header() {
                   </li>
                 ))}
               </ul>
-            </div>
-            <div className="collapse navbar-collapse" id="auth-nav">
+            </Navbar.Collapse>
+            <Navbar.Collapse id="auth-nav">
               <ul className="auth__navbar navbar-nav">
                 {isAdmin() ? (
                   <li className="nav-item">
@@ -113,8 +108,8 @@ export default function Header() {
                   </li>
                 )}
               </ul>
-            </div>
-          </nav>
+            </Navbar.Collapse>
+          </Navbar>
         </div>
       </div>
     </header>

@@ -87,7 +87,7 @@ export default function ArtGallery() {
       </div>
       <div className="gallery__actions mt-4">
         <Button href={instagramData?.url} target="_blank" variant="primary">
-          View more on <i className="bi bi-instagram" /> Instagram Instagram
+          View more on <i className="bi bi-instagram" /> Instagram
         </Button>
       </div>
     </>

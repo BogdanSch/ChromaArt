@@ -14,7 +14,6 @@ function AdminSettings() {
           Configure global variables and legal texts.
         </p>
       </div>
-
       <Form>
         <Card className="admin-card mb-4">
           <Card.Header className="admin-card__header">
